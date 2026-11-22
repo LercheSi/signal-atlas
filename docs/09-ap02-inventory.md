@@ -118,4 +118,29 @@ und unlesbare Dateien, Quelländerung, Abbruch, Speicherreserve sowie tatsächli
 überlappende Benchmarkzeitpunkte. Eine Wiederholung prüft identische fachliche
 Befunde bei abweichenden Laufmetadaten.
 
-Reale Vollscan-Ergebnisse und die abschließende Benchmarkfreigabe stehen noch aus.
+### Nachweis vom 22. November 2026
+
+- Installation über `.venv/bin/python -m pip install -e '.[dev]'` erfolgreich.
+- `make check`: zwölf Vertragstests, Ruff-Lint und -Formatprüfung, strikte
+  Mypy-Prüfung und Diff-Whitespace-Prüfung erfolgreich. Geprüfte Umgebung:
+  Python 3.14.4, Ruff 0.17.6, Mypy 2.4.1.
+- Ein realer CLI-Ausschnitt aus Binance BTCUSDT, Juli 2026, und Kraken XBTUSD,
+  Q3 2026, enthält 44.640 beziehungsweise 132.393 erfolgreich geparste Zeilen.
+  Unveränderte Inhaltskopien liegen ausschließlich im lokalen Arbeitsbereich.
+  Der Lauf ist vollständig verarbeitet; vorläufige und abschließende
+  Dateihashes stimmen überein, die Pfadauswahl ist unverändert.
+- 44.610 tatsächlich gemeinsame Minutenzeitpunkte bilden einen kleinen
+  Benchmarkkandidaten. Unterschiedliche Quotes USDT/USD bleiben explizit.
+  Die Qualitätsprüfung meldet bei Kraken 48 Lückenbereiche mit insgesamt 87
+  fehlenden Rasterpunkten; keine Parsefehler. Diese Befunde sind keine
+  nachgewiesenen Lieferfehler und werden nicht aufgefüllt.
+- Der reale Gesamtscan ist gestartet. Die lokalen Dateien
+  `.local/ap02/config.json`, `.local/ap02/process.json` und
+  `.local/ap02/full-scan.log` enthalten Konfiguration, Prozess-/Codeidentität
+  und Fortschritt. Ergebnisse und Arbeitsindex liegen außerhalb der Quellen
+  auf dem Datenlaufwerk. Eine frühere Discovery-Unterbrechung bleibt als
+  `.partial`-Nachweis erhalten; sie gilt nicht als abgeschlossener Scan.
+
+Reale Vollscan-Ergebnisse, mehrjährige Benchmarkbereiche, die abschließende
+Benchmarkfreigabe und die formale AP02-Abnahme stehen noch aus. Der kleine
+Ausschnitt ersetzt keine Aussage über alle bereitgestellten Originaldateien.
