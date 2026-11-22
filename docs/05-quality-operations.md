@@ -36,6 +36,9 @@ Qualität ist Bestandteil jedes Arbeitspakets. Import, Zeitverträge, Statistik 
 9. Geänderte Quell- und Instrumenten-Aliase beeinflussen eingefrorene Läufe erst bei einem expliziten Wechsel der Mapping-Version.
 10. Geschätzte Veröffentlichungszeiten bleiben in Query, Workspace und Export als Annahmen gekennzeichnet.
 
+11. Die [AP01-Eventfälle](08-ap01-contract.md#3-research-ablauf-b-ohlcv-und-veröffentlichungsereignisse) prüfen 60 Sekunden alte Baseline als Ausschluss, exakten Start, um 30 Sekunden verspäteten Endkurs und verspäteten Start. Die Logrendite 0,09531017980432493 wird erst beim Endkurs-Cutoff sichtbar.
+12. Eine spätere Ereignisrevision erhält den Erstverfügbarkeitsanker, das ursprüngliche Kursfenster und die Zahl unabhängiger Ereignisse; eingefrorene Runs bleiben unverändert.
+
 **Frontend-End-to-End:** beide MVP-Abnahmeläufe einschließlich Ereignismarkern, Alignment und Cutoff-Prüfung, Fehlermeldungen, Abbruch, Reload, synchrone Zeitachsen und Schutz gegen verspätete Resultate. Tastaturbedienbarkeit, lesbare Kontraste und sichtbare Zeitzone sind UI-Qualitätsziele.
 
 ## 3. Forschungsqualität

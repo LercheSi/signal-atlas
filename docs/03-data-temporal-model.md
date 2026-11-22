@@ -107,6 +107,8 @@ Voraussetzungen: `funding_state_updates` ist eine bereits validierte Zustandsrei
 
 Für belastbare Analysen sind häufig zwei Altersgrenzen nötig: seit Bekanntheit und seit fachlichem Ereignis. Ein gerade publizierter alter Referenzwert ist aktuell bekannt, aber fachlich möglicherweise veraltet. Gruppenidentität, Tie-Breaker, Toleranz und Gleichheitsregel (`<=` oder `<`) sind explizit zu versionieren. Bei fehlender gesicherter Reihenfolge am gleichen Zeitpunkt gilt ein konservativer Cutoff oder eine Sequenznummer.
 
+Für den AP01-Ereignisablauf bleibt der Anker die belegte Erstverfügbarkeit des fachlichen Ereignisses unter der gebundenen Policy. Eine spätere Ereignisrevision ändert nur die ab ihrem Cutoff sichtbaren Attribute, nicht diesen Anker oder die Anzahl unabhängiger Ereignisse. Die Fünf-Minuten-Rendite verlangt einen am Anker verfügbaren finalen Close exakt am Anker und einen finalen Close exakt bei Anker plus fünf Minuten. Ältere Baseline-Kandidaten werden mit Alter und Ausschlussgrund ausgewiesen; keine Auffüllung. Der Endkurs ist erst ab eigener Verfügbarkeit auswertbar. Gebundene Kursrevisionen werden nicht still überschrieben; korrigierte Kursauswertungen benötigen einen expliziten neuen Run. Siehe [AP01-Referenzfälle](08-ap01-contract.md#3-research-ablauf-b-ohlcv-und-veröffentlichungsereignisse).
+
 ## 7. Resampling und Look-ahead-Schutz
 
 - Zeitraster und Join erst im Analysekontext wählen; Originalzeitpunkte bleiben erhalten.

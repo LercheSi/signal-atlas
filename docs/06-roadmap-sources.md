@@ -79,7 +79,7 @@ Lieferumfang: Zeitreihencharts, Heatmaps, synchroner Zoom/Cursor, Ereignismarker
 
 Lieferumfang: MVP-Verfahren gemäß Scope einschließlich deskriptiver Renditezusammenfassung zu Ereignissen und Cutoff-Prüfung; danach Stationarität/Cointegration, Regression/Faktoren, Anomalien/Strukturbrüche und Signifikanzverfahren. **Abnahme:** synthetische Referenzen, bekanntes Lag, Nullfälle und Fehlereingaben geprüft; Ergebnisse tragen Methode, Parameter, Stichprobe, Unsicherheit und Lineage. Erweiterter Releaseumfang bleibt D-08.
 
-**M2:** Beide [MVP-Abnahmeläufe](01-product-scope.md) sind erfolgreich. Der Workspace unterstützt den Vergleich zweier OHLCV-Reihen sowie einen OHLCV-/Event-Graphen mit explizitem Alignment, Verfügbarkeitsprüfung und gemeinsamer Darstellung. Beide Arbeitsflächen lassen sich speichern, laden und mit denselben Eingaben reproduzierbar ausführen.
+**M2:** Beide [MVP-Abnahmeläufe](01-product-scope.md) sind erfolgreich. Der Workspace unterstützt den Vergleich zweier OHLCV-Reihen sowie einen OHLCV-/Event-Graphen mit explizitem Alignment, Verfügbarkeitsprüfung und gemeinsamer Darstellung. Beide Arbeitsflächen lassen sich speichern, laden und mit denselben Eingaben reproduzierbar ausführen. Der Event-Referenzfall prüft das an Erstverfügbarkeit gebundene Fünf-Minuten-Fenster, den Ausschluss älterer Baselines, verzögerte Endkursverfügbarkeit und revisionsstabile Anker gemäß AP01-Vertrag.
 
 ## 4. Phase 3 · Market Intelligence
 

@@ -31,6 +31,8 @@ OHLCV → Renditen (TimeSeries) ──────────┘
 
 Der Alignment-Node deklariert Richtung, maximales Datenalter, Zeitbasis und Verfügbarkeitspolicy. Marker nennen ihren Zeitbezug und die verwendete Revision. Eine Auswertung späterer Renditen verwendet diese als Ergebnisgrößen; als historische Features sind sie erst nach Ablauf und Verfügbarkeit des Renditefensters zulässig. Die Zusammenfassung weist Stichprobe, überlappende Fenster und Ausschlüsse aus. Weitergehende Event Studies berichten zusätzlich Unsicherheit. Ereignismarker zeigen zeitliche Zusammenhänge.
 
+Für den AP01-Ereignisablauf bleibt der Anker die belegte Erstverfügbarkeit des fachlichen Ereignisses unter der gebundenen Policy. Eine spätere Ereignisrevision ändert nur die ab ihrem Cutoff sichtbaren Attribute, nicht diesen Anker oder die Anzahl unabhängiger Ereignisse. Die Fünf-Minuten-Rendite verlangt einen am Anker verfügbaren finalen Close exakt am Anker und einen finalen Close exakt bei Anker plus fünf Minuten. Ältere Baseline-Kandidaten werden mit Alter und Ausschlussgrund ausgewiesen; keine Auffüllung. Der Endkurs ist erst ab eigener Verfügbarkeit auswertbar. Gebundene Kursrevisionen werden nicht still überschrieben; korrigierte Kursauswertungen benötigen einen expliziten neuen Run. Siehe [AP01-Referenzfälle](08-ap01-contract.md#3-research-ablauf-b-ohlcv-und-veröffentlichungsereignisse).
+
 Datenbrowser und Nodes verwenden Datentyp, fachlichen Bezug, Quelle und Zeitbereich. Analyseplugins deklarieren akzeptierte Eingangsmodalitäten. Für inkompatible Ports ist eine explizite, fachlich zulässige Transformation erforderlich.
 
 ## 2. Planung und Ausführung

@@ -10,6 +10,8 @@ Ereigniszeit oder heutiger Download allein belegen keine historische Bekanntheit
 
 event_time, published_at, observed_at und available_at bleiben getrennt. Historische Marktsicht, System-Replay und explorative Sicht sind explizit. Strikte Analyse verlangt belegte Verfügbarkeit; estimated benötigt ausdrücklichen Annahmemodus. Vor Alignment wird der am Cutoff bekannte Revisionsstand rekonstruiert. Finale Candles sind nie vor bar_end nutzbar.
 
+Für den AP01-Ereignisablauf bleibt der Anker die belegte Erstverfügbarkeit des fachlichen Ereignisses unter der gebundenen Policy. Eine spätere Ereignisrevision ändert nur die ab ihrem Cutoff sichtbaren Attribute, nicht diesen Anker oder die Anzahl unabhängiger Ereignisse. Die Fünf-Minuten-Rendite verlangt einen am Anker verfügbaren finalen Close exakt am Anker und einen finalen Close exakt bei Anker plus fünf Minuten. Ältere Baseline-Kandidaten werden mit Alter und Ausschlussgrund ausgewiesen; keine Auffüllung. Der Endkurs ist erst ab eigener Verfügbarkeit auswertbar. Gebundene Kursrevisionen werden nicht still überschrieben; korrigierte Kursauswertungen benötigen einen expliziten neuen Run. Siehe [AP01-Referenzfälle](../08-ap01-contract.md#3-research-ablauf-b-ohlcv-und-veröffentlichungsereignisse).
+
 ## Alternativen und Folgen
 
 Gegen pauschale Verfügbarkeit ab Ereigniszeit. Zusätzliche Metadaten begrenzen die belegbare Stichprobe. Lag-Konvention: corr(x[t], y[t+k]); positives k bedeutet x führt. Zukünftige Renditen bleiben Ergebnisgrößen.
