@@ -1,2 +1,69 @@
-# signal-atlas
-An open-source platform for exploring financial markets, connecting diverse data sources, visualizing relationships, and discovering insights through quantitative research and statistical analysis.
+# SignalAtlas
+
+**Explore Data. Discover Connections.**
+
+Open-Source-Plattform für Crypto Intelligence und interaktive quantitative Forschung.
+SignalAtlas verbindet historische Marktdaten mit später hinzukommenden Derivate-, Makro-, On-Chain- und Ereignisdaten. Forschende stellen Datenquellen, Transformationen, statistische Verfahren und Visualisierungen auf einer gemeinsamen Arbeitsfläche zusammen und untersuchen überprüfbare Hypothesen.
+
+> **Projektstatus: Planung / technische Konzeption, Stand 22. November 2026.** Dieses Paket beschreibt das Zielsystem. Es enthält keine ausführbare Anwendung und bestätigt keine bereits implementierten Funktionen. Die Technologien und Detailverträge sind teilweise Architekturvorschläge; ihr Status steht im [Entscheidungsregister](docs/07-decisions-risks.md).
+
+## Ziel und Abgrenzung
+
+Der erste produktive Nutzen ist ein reproduzierbarer Research Workspace für vorhandene Binance- und Kraken-Zeitreihen. Der Mensch formuliert Fragen, variiert Parameter, vergleicht Ergebnisse und beurteilt deren Aussagekraft. Auffällige Korrelationen sind Forschungsbefunde und noch keine profitablen Handelssignale.
+
+Automatische Mustererkennung und die Übergabe an Strategieforschung folgen später. Autonomes Echtgeld-Trading gehört ausdrücklich nicht zu den vier geplanten Phasen. Eine Ausführungsengine wäre ein getrenntes Modul mit eigenem Risikomodell.
+
+## Research MVP v0.1
+
+- Vorhandene Binance- und Kraken-OHLCV-Daten über einen gemeinsamen Katalog auswählen.
+- Mindestens zwei Zeitreihen anzeigen und ihre Zeitachsen synchron zoomen.
+- Quellen, Transformationen, Analysen und Charts als Nodes verbinden.
+- Korrelation und Lead-Lag untersuchen, Parameter ändern und Ergebnisse neu berechnen.
+- Arbeitsflächen speichern und wiederherstellen.
+- Datenherkunft, Datenversion, Zeitannahmen und Analyseparameter nachvollziehen.
+
+Das MVP erfordert weder vollständige On-Chain-Integration noch KI-Agenten, Tick-Orderbücher oder Live-Ausführung. Vollständige statistische Verfahren aus AP 08 können nach dem ersten MVP schrittweise folgen; die genaue Mindestmenge ist in [Scope und Anforderungen](docs/01-product-scope.md) abgegrenzt.
+
+## Technische Richtung
+
+| Bereich | Geplante Grundlage |
+|---|---|
+| Analyse und Import | Python, Polars, DuckDB |
+| Historische Massendaten | versionierte Parquet-Dateien, Raw / Normalized / Derived |
+| Metadaten und Arbeitsflächen | PostgreSQL |
+| Weboberfläche | React / TypeScript |
+| Ausführung | API und getrennte Analyse-Worker |
+| Erweiterbarkeit | versionierte Connector- und Analyseverträge |
+| Spätere Optionen | Rust/C++, persistenter Event-Stream, TimescaleDB, ClickHouse |
+
+Browser-Nodes beschreiben den Analysegraphen. Große Berechnungen laufen auf dem Backend. „Node-basiert“ bezeichnet die visuelle Arbeitsfläche, keine Entscheidung für Node.js als Analyse-Backend.
+
+## Dokumentation
+
+| Dokument | Inhalt |
+|---|---|
+| [Scope und Anforderungen](docs/01-product-scope.md) | Zielgruppen, Anwendungsfälle, MVP, Nichtziele, Abnahme |
+| [Systemarchitektur](docs/02-architecture.md) | Komponenten, Abläufe, Speicher, Deployment und Skalierung |
+| [Daten- und Zeitmodell](docs/03-data-temporal-model.md) | Schemas, Revisionen, Verfügbarkeit, As-of-Joins, Look-ahead-Schutz |
+| [Workspace, API und Plugins](docs/04-workspace-api-plugins.md) | DAG, Jobs, Schnittstellen, Erweiterungen, Reproduzierbarkeit |
+| [Qualität, Performance und Betrieb](docs/05-quality-operations.md) | Teststrategie, Forschungsqualität, Benchmarks und Wiederherstellung |
+| [Roadmap und Datenquellen](docs/06-roadmap-sources.md) | 14 Arbeitspakete, vier Phasen, Abhängigkeiten und Connector-Roadmap |
+| [Entscheidungen und Risiken](docs/07-decisions-risks.md) | Herkunft, Annahmen, offene Entscheidungen, Risiko- und ADR-Register |
+
+Empfohlener Einstieg: Scope → Architektur → Datenmodell → Roadmap. Für die Umsetzung sind zusätzlich die API-Verträge und das Entscheidungsregister maßgeblich.
+
+## Entwicklungsstart
+
+1. AP 01: MVP-Scope und Zeitsemantik als ADRs bestätigen.
+2. AP 02: Originaldaten unverändert inventarisieren; Formate, Größen und Qualität messen.
+3. AP 03: Einen reproduzierbaren Importpfad und einen unveränderlichen Datensnapshot umsetzen.
+4. AP 04: Einen vertikalen Pfad von der Datenabfrage bis zur Lead-Lag-Analyse benchmarken.
+5. AP 05–08: Diesen Pfad über die speicherbare Arbeitsfläche zugänglich machen.
+
+Installationsbefehle, unterstützte Laufzeitversionen und Startskripte werden erst mit dem ausführbaren Repository ergänzt. Das Konzept erfindet keine vorhandenen Befehle oder Messergebnisse.
+
+## Mitarbeit und Lizenz
+
+Beiträge sollen kleine, überprüfbare Schritte mit dokumentiertem Datenvertrag, nachvollziehbaren Ergebnissen und passenden Tests liefern. Architekturänderungen erhalten ein ADR. Synthetische Testdaten gehören ins Repository; private, große oder nicht weiterverteilbare Quelldaten nicht.
+
+**Offen:** Open-Source-Lizenz, Governance, Contribution-Prozess und Security-Kontakt. Dieses Dokument vergibt selbst keine Softwarelizenz. Nutzungsrechte an Marktdaten sind gesondert zu prüfen; eine offene Softwarelizenz erlaubt nicht automatisch deren Weiterverteilung.
