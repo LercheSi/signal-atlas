@@ -16,6 +16,10 @@ Für den AP01-Ereignisablauf bleibt der Anker die belegte Erstverfügbarkeit des
 
 Gegen pauschale Verfügbarkeit ab Ereigniszeit. Zusätzliche Metadaten begrenzen die belegbare Stichprobe. Lag-Konvention: corr(x[t], y[t+k]); positives k bedeutet x führt. Zukünftige Renditen bleiben Ergebnisgrößen.
 
+## Vertragsfreigabe
+
+Freigabekriterium für D-07 ist der widerspruchsfreie Zeitvertrag einschließlich des an Erstverfügbarkeit gebundenen Ereignisfensters und seiner Referenzfälle. Die Freigabe ist vor formaler AP01-Abnahme und AP03-Vertragsimplementierung erforderlich; quellenspezifische Verfügbarkeitsbelege D-13 folgen separat vor strikter Realanalyse. Der Status bleibt `proposed`; diese Überarbeitung enthält keine Freigabe.
+
 ## Nachweis und Überprüfung
 
 Candle-Ende, Cutoff, Revisionen, Unknown/Estimated, Mappingwechsel und Zukunftsänderungen; AP03/04/08. Noch kein Implementierungsnachweis. Überprüfungsauslöser: Neue Quellenzeitsemantik oder Replayperspektive.

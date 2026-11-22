@@ -26,12 +26,12 @@ Der reale Datenbestand, die konkreten Providerverträge und die Hardwareleistung
 | D-04 | O/V | Konkreter Jobrunner; Vorschlag DB-Queue mit Leases | Restart, Claim, Abbruch, Fairness und Idempotenz prototypisieren |
 | D-05 | K/V | Python, React/TypeScript; modularer Kern | Stack vorgegeben; Frameworks und Versionspins offen |
 | D-06 | K/O | Live modular; NATS/TimescaleDB/ClickHouse optional | Auswahl erst nach Last-/Recoverynachweis |
-| D-07 | K/V | Vier Zeitstempel; zwei Replayperspektiven | Grundmodell aus Kontext, Detailpolicy hier konkretisiert |
-| D-08 | V | F-05 plus deskriptive Event-Zusammenfassung und Cutoff-Prüfung für M2 | AP01-Vertrag; weitere Statistik blockiert M2 nicht |
+| D-07 | K/V | Vier Zeitstempel; zwei Replayperspektiven | ADR-0004 proposed; Vertragsfreigabe vor AP01-Abnahme, Zeitregressionen erst AP03/04/08 |
+| D-08 | V | F-05 plus deskriptive Event-Zusammenfassung und Cutoff-Prüfung für M2 | AP01-Vorschlag: ausdrückliche Scopeentscheidung vor AP01-Abnahme; Nachweis beider Abläufe vor M2 |
 | D-09 | O | Lizenz, Governance, Contribution und Security-Kontakt | Vor öffentlicher Veröffentlichung klären |
 | D-10 | O | Chart-/Canvasbibliothek, Python-Webframework | Lizenz, Wartbarkeit, große Graphen/Daten, Accessibility testen |
 | D-11 | O | Backup, RPO/RTO, Retention und Speicherbudget | AP 02 ermittelt Größe; Restore vor M1 nachweisen |
-| D-12 | V | Unveränderliche Snapshots plus Manifest-Commit | Verhindert halbe Imports und wandernde Datenstände |
+| D-12 | V | Unveränderliche Snapshots plus Manifest-Commit | ADR-0005 proposed; Vertragsfreigabe vor AP01-Abnahme, Crash-/Restore-Nachweis AP03/04 |
 | D-13 | O | Verfügbarkeitsannahmen je historischer Quelle | Ohne belegte Vintages kein striktes Markt-Replay behaupten |
 | D-14 | B | Lokaler Einzelbetrieb auf Loopback | ADR-0001; Remote-/Mehrnutzerbetrieb erfordert neuen Entwurf |
 | D-15 | O | Native Module und zusätzliche Stores | Erst nach reproduzierbarem Profiling entscheiden |
@@ -118,4 +118,4 @@ Pflegeanlässe: veränderte Zeitsemantik, neue Datenquelle, neue Plugin-API, öf
 | [0005 · Snapshot-Commit](adr/0005-snapshot-commit.md) | proposed | D-12; vollständige atomar sichtbare Datenstände |
 | [0006 · Plugin-Vertrauen](adr/0006-plugin-vertrauen.md) | proposed | A-06; geprüfte lokale Erweiterungen |
 
-Jobrunner, Laufzeit-/Bibliotheksversionen und Lizenz bleiben mit den Gates im AP01-Vertrag offen. AP01 ist zur Abnahme vorbereitet: technische ADR-Annahme und die namentliche Rollenbesetzung stehen aus. Die Dokumente ersetzen keine Software-, Datenrechte- oder Performance-Nachweise.
+Jobrunner, Laufzeit-/Bibliotheksversionen und Lizenz bleiben mit den Gates im AP01-Vertrag offen. AP01 ist zur Abnahme vorbereitet: technische ADR-Annahme, ausdrückliche Entscheidung über D-08 und die namentliche Rollenbesetzung stehen aus. Vertragsfreigaben und spätere Implementierungsnachweise sind in Abschnitt 7 des AP01-Vertrags getrennt. Die Dokumente ersetzen keine Software-, Datenrechte- oder Performance-Nachweise.

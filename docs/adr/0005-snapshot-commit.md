@@ -14,6 +14,10 @@ Staging schreiben, Schema/Hashes/Bericht prüfen, unveränderliche Dateien und M
 
 Gegen In-place-Dateien und vollständige Massendatenhaltung in PostgreSQL. Ein Fehler vor DB-Commit kann verwaiste Dateien, aber keine halben sichtbaren Snapshots erzeugen. Wiederholung ist idempotent; Aufräumen respektiert Referenzen, Backup und Retention.
 
+## Vertragsfreigabe
+
+Freigabekriterium für D-12 ist die dokumentierte Commit-Reihenfolge mit vollständiger Lesersicht und Verhalten an den Fehlergrenzen. Die Vertragsfreigabe ist vor formaler AP01-Abnahme und AP03-Persistenzcode erforderlich. Crash-/Wiederholungs- und Restore-Nachweise folgen erst in AP03/04 vor M1. Der Status bleibt `proposed`; diese Überarbeitung enthält keine Freigabe.
+
 ## Nachweis und Überprüfung
 
 Crash vor/nach Datei- und DB-Veröffentlichung, Wiederholung und Restore; AP03/04. Noch kein Implementierungsnachweis. Überprüfungsauslöser: Storagewechsel oder geänderte atomare Grenzen.
