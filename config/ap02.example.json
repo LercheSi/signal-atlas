@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "output_dir": "/absolute/local/ap02/reports",
+  "work_dir": "/absolute/local/ap02/work",
+  "min_free_bytes": 10737418240,
+  "sources": [
+    {
+      "id": "binance",
+      "root": "/absolute/local/binance_csv",
+      "original": ["data/spot/monthly/klines/*.zip"],
+      "derived": ["breite_analyse/*", "erste_analyse/*"],
+      "support": ["*.json", "*.jsonl", "*.log", "*.py", "*.sh"]
+    },
+    {
+      "id": "kraken",
+      "root": "/absolute/local/kraken_csv",
+      "original": ["archives/*.zip", "archives/*.part??", "quarterly/*.zip"],
+      "derived": ["chronological-*/*", "dataset-*/*", "import-preview/*", "model-*/*", "usd-15m-*/*"],
+      "support": ["archives/*.json", "quarterly/*.json"]
+    }
+  ],
+  "benchmark_mappings": [
+    {
+      "base_asset": "BTC",
+      "binance": "BTCUSDT",
+      "kraken": "XBTUSD",
+      "binance_quote": "USDT",
+      "kraken_quote": "USD",
+      "interval": "1m",
+      "quote_warning": "Different quotes; exploratory returns only, no unconverted absolute spread"
+    }
+  ]
+}

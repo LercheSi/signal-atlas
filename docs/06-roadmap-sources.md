@@ -35,6 +35,8 @@ Lieferumfang: schreibgeschützter Scan aller bereitgestellten Binance-/Kraken-OH
 
 **Abnahme:** Inventar und reproduzierbarer Qualitätsbericht decken alle bereitgestellten Dateien ab; nicht lesbare Dateien sind separat ausgewiesen; Originalhashes bleiben unverändert. Repräsentative Benchmarkausschnitte sind festgelegt.
 
+**Arbeitsstand:** Das [AP02-Inventurwerkzeug](09-ap02-inventory.md) ist implementiert und mit synthetischen Vertragstests geprüft. Reale Vollscan-Nachweise, Benchmarkfreigabe und formale Abnahme stehen noch aus.
+
 ### AP 03 · Data Lake und Datenintegration
 
 **Ziel:** Raw-/Normalized-/Derived-Modell mit historischer Verfügbarkeit. **Abhängigkeit:** AP 01, AP 02.

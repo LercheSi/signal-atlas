@@ -5,7 +5,7 @@
 Modularer Research Workspace für explorative Finanzmarkt- und Ereignisforschung mit Kryptowährungen als erstem fachlichen Schwerpunkt.
 SignalAtlas verbindet historische Marktdaten mit später hinzukommenden Derivate-, Makro-, On-Chain- und Ereignisdaten. Forschende stellen Datenquellen, Transformationen, statistische Verfahren und Visualisierungen auf einer gemeinsamen Arbeitsfläche zusammen und untersuchen überprüfbare Hypothesen.
 
-> **Projektstatus: Planung / technische Konzeption, Stand 22. November 2026.** Dieses Paket beschreibt das Zielsystem. Es enthält keine ausführbare Anwendung und bestätigt keine bereits implementierten Funktionen. Die Technologien und Detailverträge sind teilweise Architekturvorschläge; ihr Status steht im [Entscheidungsregister](docs/07-decisions-risks.md).
+> **Projektstatus: Foundation / AP02 in Umsetzung, Stand 22. November 2026.** Die Forschungsanwendung ist noch nicht implementiert. Ein eigenständiges [AP02-Inventurwerkzeug](docs/09-ap02-inventory.md) ist ausführbar; der reale Vollscan und seine Abnahme stehen noch aus. Die Technologien und Detailverträge sind teilweise Architekturvorschläge; ihr Status steht im [Entscheidungsregister](docs/07-decisions-risks.md).
 
 ## Ziel und Abgrenzung
 
@@ -70,7 +70,7 @@ Empfohlener Einstieg: Scope → Architektur → Datenmodell → Roadmap. Für di
 4. AP 04: Einen vertikalen Pfad von der Datenabfrage bis zur Lead-Lag-Analyse benchmarken.
 5. AP 05–08: Diesen Pfad über die speicherbare Arbeitsfläche zugänglich machen.
 
-Installationsbefehle, unterstützte Laufzeitversionen und Startskripte werden erst mit dem ausführbaren Repository ergänzt. Das Konzept erfindet keine vorhandenen Befehle oder Messergebnisse.
+Installation, CLI-Aufruf und Projektprüfungen des Inventurwerkzeugs stehen in der [AP02-Anleitung](docs/09-ap02-inventory.md). Startbefehle für die Forschungsanwendung folgen mit deren Umsetzung.
 
 ## Mitarbeit und Lizenz
 
