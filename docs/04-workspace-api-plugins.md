@@ -127,6 +127,10 @@ Parameter verwenden deklarative Schemas mit Defaults, Grenzen, Enum-Werten und v
 
 **Vertrauensmodell:** MVP lädt nur geprüfte, lokal installierte Plugins aus einer Allowlist. Ein separater Worker-Prozess ist keine Sicherheitsisolation gegen bösartigen Code. Fremde Plugins erfordern Container-/Berechtigungsisolation, Netzwerk- und Dateisystemregeln sowie einen signierten oder anderweitig geprüften Distributionsweg. Ein offener Plugin-Marktplatz ist kein MVP-Ziel.
 
+Eine Allowlist-Freigabe bindet das Tupel aus Plugin-ID, Implementierungsversion und unveränderlichem Code-/Paketnachweis (beispielsweise Inhaltsdigest des ausführbaren Pakets). Die tatsächlich geladenen Inhalte müssen diesem geprüften Nachweis entsprechen; eine Versionszeichenfolge oder ein veränderlicher Installationspfad reicht nicht. Änderungen an Code/Paket oder Version erfordern erneute Prüfung und eine neue Freigabe. Registry, Run-Manifest und Cacheidentität binden dieses Tupel; Environment-/Dependency-Nachweise bleiben zusätzlich erforderlich.
+
+Fehlt für einen alten Run genau die gebundene Version mit passendem Nachweis oder ihre gültige Freigabe, scheitert die angeforderte Ausführung ausdrücklich vor dem Laden des Plugins. Gleichnamige, neuere oder unter gleicher Versionsnummer veränderte Pakete sind kein Ersatz. Bereits archivierte Ergebnisse dürfen mit Herkunft gelesen werden, gelten aber nicht als erneute Ausführung. Ein ausdrücklich gewähltes Upgrade erzeugt einen neuen Run und erhält die Bindungen des alten Runs.
+
 Plugin-API und Implementierung sind separat versioniert. Breaking Changes benötigen neue Hauptversion und Migration; alte Runs benötigen weiterhin ein ausführbares Environment oder einen ausdrücklich dokumentierten Reproduzierbarkeitsverlust. Veraltete Versionen dürfen nicht still gegen neue ausgetauscht werden.
 
 ## 6. Run-Manifest und Cache

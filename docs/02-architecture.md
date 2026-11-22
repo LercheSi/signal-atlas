@@ -86,11 +86,11 @@ Partitionierung wird anhand AP 02/04 festgelegt: wahrscheinlich Quelle, Datentyp
 
 **Vorschlag: atomare Sichtbarkeit über Manifest-Commit.**
 
-1. Import schreibt Dateien in einen isolierten Staging-Bereich.
-2. Validator prüft Schema, Hash, Zeilenzahl, Zeitbereiche und Qualitätsbericht.
-3. Writer veröffentlicht unveränderliche Dateien und ein Manifest; vorhandene Dateien werden nicht überschrieben.
-4. PostgreSQL-Transaktion registriert den vollständigen Snapshot als `committed` und setzt bei Bedarf den Katalogzeiger.
-5. Leser verwenden nur committed Manifeste. Verwaiste Staging-Dateien werden nach einer Schonfrist aufgeräumt.
+Dateien und Manifest müssen vor dem PostgreSQL-Commit vollständig validiert und gemäß dem dokumentierten Haltbarkeitsvertrag des Speichers dauerhaft gesichert sein. Validierung umfasst die vollständige Dateiliste, Prüfsummen, Schemata, Zeilenzahlen und Qualitätsbericht; das Manifest bindet genau diese Inhalte. Ein bloß erfolgreicher Schreibaufruf oder Rename genügt nicht als Dauerhaftigkeitsnachweis. Erst danach darf PostgreSQL den Snapshot als `committed` sichtbar machen. Leser verwenden ausschließlich solche Snapshots und keine Staging-Pfade oder Dateiglobs. Bei fehlenden oder beschädigten referenzierten Inhalten wird die Abfrage ausdrücklich abgewiesen statt einen Teilbestand zu liefern.
+
+Vom Beginn der Veröffentlichung bis zum abgeschlossenen Commit oder zur gesicherten Aufgabe schützt eine zwischen Publisher, Recovery und Garbage Collection koordinierte Veröffentlichungsreservierung sämtliche Dateien und das Manifest vor Löschung. Die konkrete Sperr-/Reservierungstechnik bleibt AP03 überlassen; sie muss exklusives Aufräumen gegen erneuten Commit absichern. Eine Schonfrist allein genügt nicht. Nach Ablauf einer Reservierung darf ein alter Publisher nicht mehr committen, ohne den Schutz erneut zu erwerben und Bestand, Dauerhaftigkeit und Validierung erneut zu prüfen. Bei Übernahme durch Recovery darf nur der aktuelle berechtigte Publisher abschließen.
+
+Ein Absturz vor dem Commit lässt den Snapshot unsichtbar. Recovery setzt denselben Auftrag nur mit gültigem Schutz und erneut bestätigter Vollständigkeit fort oder gibt ihn koordiniert auf. Wiederholung nach unbekanntem Commit-Ausgang prüft zuerst den Katalog: derselbe Auftrag mit demselben Manifest liefert den bereits committed Snapshot, widersprechende Inhalte scheitern. Ein Absturz nach dem Commit hebt den Schutz durch die dauerhafte Katalogreferenz nicht auf. Verwaiste Dateien dürfen erst nach gesicherter Aufgabe, Ausschluss eines noch berechtigten Publishers und erneuter Referenzprüfung gelöscht werden; Retention und Backup gelten zusätzlich. Prüfung und Löschung sind mit Publishern koordiniert, sodass dazwischen kein Commit die Dateien referenzieren kann. Gemeinsam referenzierte Dateien bleiben erhalten.
 
 Ein Dateisystem-Rename ist nur innerhalb seiner tatsächlichen atomaren Grenzen verwendbar; Objektablagen benötigen ein entsprechendes Commit-Verfahren. Eine PostgreSQL-Transaktion allein macht externe Dateien nicht atomar. Compaction erzeugt neue Snapshots; alte Runs behalten alte Dateireferenzen. Garbage Collection löscht nur unreferenzierte Daten außerhalb von Retention und Backup-Verpflichtungen.
 
@@ -114,6 +114,8 @@ Ein Live-Ereignis wird erst nach dauerhafter Aufnahme bestätigt. Replay und min
 Späte Ereignisse und Korrekturen erzeugen neue Revisionen. Watermarks kennzeichnen erwartete Vollständigkeit, nicht absolute Fehlerfreiheit. Der Übergang zwischen Live-Sicht und historischem Snapshot erfolgt über einen expliziten Cutover-Cursor; nachgelagerte Leser deduplizieren die Überlappungszone.
 
 **Optionen:** NATS JetStream als persistenter Ereignisstrom, TimescaleDB für operative Zeitreihen, ClickHouse bei nachgewiesener Tick-/Orderbuchlast. Keine dieser Optionen ist eine MVP-Abhängigkeit. Auswahl erst mit Lastprofil, Betriebsaufwand und Wiederherstellungstest.
+
+Die [Plugin-Freigabe](adr/0006-plugin-vertrauen.md) bindet Plugin-ID, Implementierungsversion und unveränderlichen Code-/Paketnachweis. Loader prüfen genau diese freigegebenen Inhalte; Änderungen erfordern erneute Prüfung. Fehlt die gebundene Version für einen alten Run, scheitert dessen Ausführung ausdrücklich ohne Versionsfallback.
 
 ## 7. Native Beschleunigung und Deployment
 

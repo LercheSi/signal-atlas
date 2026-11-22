@@ -31,7 +31,7 @@ Der reale Datenbestand, die konkreten Providerverträge und die Hardwareleistung
 | D-09 | O | Lizenz, Governance, Contribution und Security-Kontakt | Vor öffentlicher Veröffentlichung klären |
 | D-10 | O | Chart-/Canvasbibliothek, Python-Webframework | Lizenz, Wartbarkeit, große Graphen/Daten, Accessibility testen |
 | D-11 | O | Backup, RPO/RTO, Retention und Speicherbudget | AP 02 ermittelt Größe; Restore vor M1 nachweisen |
-| D-12 | V | Unveränderliche Snapshots plus Manifest-Commit | ADR-0005 proposed; Vertragsfreigabe vor AP01-Abnahme, Crash-/Restore-Nachweis AP03/04 |
+| D-12 | V | Unveränderliche Snapshots plus Manifest-Commit | ADR-0005 proposed; Dauerhaftigkeit/Validierung vor Commit, Schutz vor parallelem Aufräumen; Vertragsfreigabe vor AP01-Abnahme, Crash-/Restore-Nachweis AP03/04 |
 | D-13 | O | Verfügbarkeitsannahmen je historischer Quelle | Ohne belegte Vintages kein striktes Markt-Replay behaupten |
 | D-14 | B | Lokaler Einzelbetrieb auf Loopback | ADR-0001; Remote-/Mehrnutzerbetrieb erfordert neuen Entwurf |
 | D-15 | O | Native Module und zusätzliche Stores | Erst nach reproduzierbarem Profiling entscheiden |
@@ -52,7 +52,7 @@ Kein Eintrag mit Status V oder O wird durch Erwähnung in einem Diagramm zu eine
 | A-03 | Einzelner Rechner reicht für erstes Profil | AP 04 misst RAM/Scan/Join; bei Nichterfüllung Datenlayout/Scope anpassen |
 | A-04 | Historische Verfügbarkeit ist teilweise unbekannt | Quellenblatt und Zeitpolicy; Ergebnisse entsprechend kennzeichnen |
 | A-05 | Datenrechte erlauben lokale Forschung | Je Quelle prüfen; Öffentlichkeit/Weiterverteilung separat bewerten |
-| A-06 | Fachliche Plugins werden anfangs geprüft installiert | Fremdcodebetrieb braucht Isolation und neuen Freigabeprozess |
+| A-06 | Fachliche Plugins werden anfangs geprüft installiert | ADR-0006 proposed bindet Freigabe an ID, Implementierungsversion und unveränderlichen Code-/Paketnachweis; Änderungen erneut prüfen, fehlende Altversionen ohne Fallback ablehnen. Fremdcodebetrieb braucht Isolation |
 
 ## 5. Risikoregister
 

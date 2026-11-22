@@ -21,6 +21,10 @@ Qualität ist Bestandteil jedes Arbeitspakets. Import, Zeitverträge, Statistik 
 
 **Integrationsprüfungen:** Raw → Normalized → Manifest → Query → Plugin → Artefakt; API plus PostgreSQL; Workspace speichern und laden; Jobclaim/Lease; Cache-Invaliderung bei Daten- oder Codeänderung. Ein Crash zwischen Dateischreiben und Katalog-Commit darf keinen halben Snapshot lesbar machen.
 
+**Snapshot-Veröffentlichung (AP03/04):** Fehlende Dauerhaftigkeitsbestätigung, fehlende Dateien, Hash-/Manifestfehler und Crashpunkte vor/nach Commit müssen einen lesbaren Teilbestand ausschließen. Paralleles Aufräumen darf geschützte oder committed referenzierte Inhalte nicht löschen. Ein Publisher nach Schutzablauf darf nicht committen; Recovery/Wiederholung prüft Katalog und Bestand. Verwaiste Dateien erst nach koordinierter Aufgabe und erneuter Referenzprüfung löschen.
+
+**Plugin-Freigabe (AP04/06):** Unverändertes freigegebenes ID-/Versions-/Code-Nachweis-Tupel zulassen; unter gleicher Version veränderten Code, ungeprüfte Version, fehlendes gebundenes Paket und Nachweisabweichung ausdrücklich vor Plugin-Ausführung ablehnen. Kein Fallback auf installierte neuere Versionen; Manifest und Cache binden den geprüften Nachweis.
+
 **Connector-Vertragstests:** Eine gemeinsame Testsuite prüft deklarierte Fähigkeiten, Schemata, Herkunft, Zeitsemantik und Wiederholung für Candle- und Event-Adapter. Unterschiedlich strukturierte Provider-Fixtures mit gleicher fachlicher Semantik ergeben äquivalente kanonische Werte; die jeweilige Herkunft bleibt erhalten. Ein Makroereignis durchläuft Raw → Normalized → Snapshot → Query → Workspace → Export mit Entity-Bezug ohne Instrument oder Venue. Fixtures mit weiteren Quell-IDs und Quote-Währungen decken fest codierte Annahmen im Kern auf. Für Candle-Instrumente werden Venue, Marktart, Base/Quote und Gültigkeitszeitraum geprüft.
 
 **Zeitliche Regressionstests:**

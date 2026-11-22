@@ -124,12 +124,14 @@ Für den AP01-Ereignisablauf bleibt der Anker die belegte Erstverfügbarkeit des
 
 Jeder Import erzeugt Bericht und Manifest: Dateihashes, Bytes, Quellformat, Zeilenzahl, Min-/Max-Zeiten, Instrumente, erwartete Intervalle, Lücken, Duplikate, Konflikte, ausgeschlossene Datensätze und Normalizer-Version. Lücken können Nicht-Handel, Listinggrenzen, Wartung oder Aufnahmefehler bedeuten. Der Grund bleibt unbekannt, wenn er nicht belegt ist.
 
+Für die Veröffentlichung gilt der [Dauerhaftigkeits- und Aufräumvertrag](adr/0005-snapshot-commit.md): vollständige Validierung und dauerhafte Sicherung aller Dateien und des Manifests vor dem PostgreSQL-Commit, koordinierter Veröffentlichungsschutz gegen paralleles Aufräumen und ausdrückliches Scheitern bei beschädigten Referenzen. Unvollständige Snapshots sind niemals lesbar.
+
 Ein Snapshot referenziert genaue Dateien und Schemas, keine veränderlichen Globs. Beispiel:
 
 ```json
 {
   "snapshot_id": "example-snapshot-001",
-  "schema_version": "candles/1",
+  "schema_version": "candle/1",
   "files": [{"uri": "normalized/example/part-001.parquet", "sha256": "<computed-at-import>"}],
   "normalizer_version": "example-commit",
   "quality_report_id": "example-report-001",
