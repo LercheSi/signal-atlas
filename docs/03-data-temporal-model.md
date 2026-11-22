@@ -136,3 +136,7 @@ Ein Snapshot referenziert genaue Dateien und Schemas, keine veränderlichen Glob
 ```
 
 Die Platzhalter sind illustrativ und keine gültigen Produktionshashes. Schemaänderungen sind migrationspflichtig; neue Felder mit gleicher Bedeutung können kompatibel ergänzt werden, geänderte Einheiten oder Zeitsemantik benötigen neue Versionen. Alte Snapshots werden nicht stillschweigend uminterpretiert.
+
+## 9. AP01-Konkretisierung
+
+Der [AP01-Vertrag](08-ap01-contract.md) konkretisiert beide Research-Abläufe, Schnittstellen, Modulgrenzen, numerische Toleranzen und die Übergabe. Technische ADRs sind Vorschläge zur Abnahme. Softwaretests und Benchmarks werden erst in den nachfolgenden Arbeitspaketen ausgeführt.

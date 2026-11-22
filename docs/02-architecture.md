@@ -119,4 +119,8 @@ Späte Ereignisse und Korrekturen erzeugen neue Revisionen. Watermarks kennzeich
 
 Rust/C++ sind optionale Beschleuniger nach Profiling. Vorher: Filter früh anwenden, unnötige Kopien entfernen, Algorithmen verbessern, geeignete Partitionierung und Caching prüfen. Native Module bekommen denselben fachlichen Vertrag wie Python-Referenzen, Tests gegen Referenzergebnisse und dokumentierte Build-/ABI-Unterstützung.
 
-**Annahme:** Lokales Deployment mit Weboberfläche, API, PostgreSQL und wenigen Workern. Vorgeschlagen ist ein späteres Compose-Profil; Containerdateien existieren in diesem Dokumentationspaket nicht. Öffentliches Hosting erfordert Authentifizierung, TLS, Rollen, Quoten und ein separates Betriebsmodell. Kubernetes und verteilte Ausführung sind offen und für v0.1 nicht vorgesehen.
+**Bestätigter MVP-Rahmen (ADR-0001):** Lokales Deployment mit Weboberfläche, API, PostgreSQL und wenigen Workern. Vorgeschlagen ist ein späteres Compose-Profil; Containerdateien existieren in diesem Dokumentationspaket nicht. Öffentliches Hosting erfordert Authentifizierung, TLS, Rollen, Quoten und ein separates Betriebsmodell. Kubernetes und verteilte Ausführung sind offen und für v0.1 nicht vorgesehen.
+
+## 8. AP01-Konkretisierung
+
+Der [AP01-Vertrag](08-ap01-contract.md) konkretisiert beide Research-Abläufe, Schnittstellen, Modulgrenzen, numerische Toleranzen und die Übergabe. Technische ADRs sind Vorschläge zur Abnahme. Softwaretests und Benchmarks werden erst in den nachfolgenden Arbeitspaketen ausgeführt.

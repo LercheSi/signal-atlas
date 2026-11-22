@@ -58,7 +58,7 @@ Ein neuer Parameterstand erhält eine neue Graphrevision. Die UI zeigt Ergebniss
 | Regression | Ziel, Features, Training/Test, robuste Fehlerannahmen und Diagnose |
 | Anomalien/Brüche | Fit-Zeitraum, Schwelle, Referenzregime, Alarmrate und zeitliche Evaluationsregel |
 
-**Vorschlag für Lag-Konvention:** `corr(x[t], y[t+k])`; positives `k` bedeutet, dass x gegenüber y vorausläuft. Ein synthetischer Test mit bekanntem Shift fixiert diese Konvention. Die UI zeigt sie im Ergebnis, statt allein „Lag +5“ anzugeben.
+**AP01-Vertragsvorschlag für Lag-Konvention:** `corr(x[t], y[t+k])`; positives `k` bedeutet, dass x gegenüber y vorausläuft. Ein synthetischer Test mit bekanntem Shift fixiert diese Konvention. Die UI zeigt sie im Ergebnis, statt allein „Lag +5“ anzugeben.
 
 Zeitreihen besitzen Autokorrelation und sich überlappende Beobachtungen. Einfache IID-p-Werte dürfen daher nicht als allgemeine Evidenz dargestellt werden. Vorgesehen sind passende Block-Bootstraps oder andere explizit begründete Unsicherheitsverfahren. Auswahl des „besten“ Lags zählt als Mehrfachsuche. Methoden, Parameter und Korrekturfamilien werden dokumentiert; explorative Ergebnisse bleiben entsprechend markiert.
 
@@ -140,3 +140,7 @@ Ein erfolgreicher Run speichert mindestens:
 Ein Cache-Key umfasst semantischen Teilgraphen, Daten-/Schema-/Mappingversionen, Plugin und Code, Parameter, Zeitpolicy, Seed und relevante Engine-Konfiguration. Ein neuer Import oder eine geänderte Verfügbarkeitsannahme darf keinen alten Treffer wiederverwenden. Cache ist löschbar; archivierte Forschungsergebnisse sind unabhängig davon aufzubewahren.
 
 Deterministische Ergebnisse sollen identisch oder innerhalb ausgewiesener numerischer Toleranzen reproduzierbar sein. Parallelreduktionen und native Bibliotheken können Rundungsunterschiede erzeugen; ein Hash allein ist kein allgemeiner Nachweis numerischer Äquivalenz.
+
+## 7. AP01-Konkretisierung
+
+Der [AP01-Vertrag](08-ap01-contract.md) konkretisiert beide Research-Abläufe, Schnittstellen, Modulgrenzen, numerische Toleranzen und die Übergabe. Technische ADRs sind Vorschläge zur Abnahme. Softwaretests und Benchmarks werden erst in den nachfolgenden Arbeitspaketen ausgeführt.

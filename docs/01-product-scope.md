@@ -10,7 +10,7 @@
 
 **Kontextfestlegung:** SignalAtlas ist ein modularer Arbeitsplatz für explorative Finanzmarkt- und Ereignisforschung. Die Architektur ist unabhängig von einzelnen Anbietern, Handelsplätzen, Instrumenten und Asset-Klassen. Kryptowährungen sind der erste fachliche Schwerpunkt. Binance und Kraken dienen als Pilotquellen. Börsenübergreifende Arbitrage ist ein möglicher Forschungsfall.
 
-**Annahme A-01:** Zunächst arbeitet eine technisch versierte Person lokal oder auf einem privaten Server mit vorhandenen historischen Daten. Ein öffentlich erreichbarer Mehrmandantendienst ist kein MVP-Ziel.
+**Bestätigt A-01 / ADR-0001:** Zunächst arbeitet eine technisch versierte Person lokal mit vorhandenen historischen Daten. Ein öffentlich erreichbarer Mehrmandantendienst ist kein MVP-Ziel.
 
 Primäre Arbeitsabläufe:
 
@@ -27,7 +27,7 @@ Der Workspace soll Exploration erleichtern, zugleich aber die Grenze zwischen ex
 | ID | Zielanforderung | Überprüfbare Abnahme |
 |---|---|---|
 | F-01 | Quellenübergreifender Katalog für unterstützte Datentypen | Binance-/Kraken-OHLCV und synthetische Ereignisse sind nach Quelle, Datentyp, Entity oder Instrument, Zeitbereich, Qualität und Verfügbarkeitsstatus auffindbar. Das Intervall ist für Candles filterbar |
-| F-02 | Einheitliche Abfrage | Dieselben Filter liefern unabhängig vom Ursprungsformat dasselbe kanonische Schema |
+| F-02 | Einheitliche Abfrage | Dieselben Filter liefern unabhängig vom Ursprungsformat dasselbe kanonische Schema je Datenart; Candle- und Event-Payloads bleiben getrennt |
 | F-03 | Mehrere Charts | Mindestens zwei Quellen gemeinsam sichtbar; Zoom und Cursor besitzen dieselbe UTC-Zeitbasis |
 | F-04 | Node-Arbeitsfläche | Quelle → Transformation → Analyse → Chart ist verbindbar; unzulässige Typen und Zyklen werden abgewiesen |
 | F-05 | Mindestanalysen | Deskriptive Statistik, Renditetransformation, Korrelation und Kreuzkorrelation/Lead-Lag mit explizitem Lag-Vorzeichen |
@@ -41,7 +41,7 @@ Der Workspace soll Exploration erleichtern, zugleich aber die Grenze zwischen ex
 
 Die unterstützten OHLCV-Formate und Instrumenttypen werden in AP 02 ermittelt. Das kanonische Event-Schema und der synthetische Adapter gehören zum Referenzumfang. Die produktive Anbindung weiterer Anbieter folgt in AP 09.
 
-AP 08 hat einen größeren Zielumfang als F-05: Stationarität, Cointegration, Regression, Faktoren, Anomalien und Strukturbrüche sind geplante Module. **Offen D-08:** Welche davon blockieren M2? Vorschlag: MVP zunächst mit F-05 abnehmen und weitergehende Verfahren als getrennte Issues führen.
+AP 08 hat einen größeren Zielumfang als F-05: Stationarität, Cointegration, Regression, Faktoren, Anomalien und Strukturbrüche sind geplante Module. **AP01-Vorschlag D-08:** M2 umfasst F-05 und die deskriptive Event-Renditezusammenfassung mit Cutoff-Prüfung aus F-12. Weitere Verfahren blockieren M2 nicht und erhalten getrennte Issues.
 
 ## 4. Nichtfunktionale Anforderungen
 
@@ -68,3 +68,7 @@ Ein zweiter Abnahmelauf kombiniert vorhandene Candles einer Pilotquelle mit synt
 Phase 3 ergänzt Datenvielfalt, Beziehungen und Live-Beobachtung. Phase 4 ergänzt Hypothesenverwaltung, systematische Suche und Übergabe an Backtests. Ein einfacher Run-Nachweis gehört bereits ins MVP; ein vollständiger Experiment Manager erst in AP 12.
 
 Nicht Teil der ersten vier Phasen: autonome Echtgeldorders, Verwahrung von Vermögen, garantierte Handelsrenditen, vollständige globale Blockchain-Indexierung, verteiltes High-Frequency-Trading und die Behauptung von Kausalität allein aus Korrelation.
+
+## 7. AP01-Konkretisierung
+
+Der [AP01-Vertrag](08-ap01-contract.md) konkretisiert beide Research-Abläufe, Schnittstellen, Modulgrenzen, numerische Toleranzen und die Übergabe. Technische ADRs sind Vorschläge zur Abnahme. Softwaretests und Benchmarks werden erst in den nachfolgenden Arbeitspaketen ausgeführt.

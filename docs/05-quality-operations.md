@@ -74,7 +74,7 @@ Optimierungsreihenfolge: Queryplan und Filter/Projektion → Dateilayout → vek
 
 ## 5. Sicherheit und Betrieb
 
-MVP-Bindung an localhost oder privates Netz. Öffentliche Erreichbarkeit erfordert vor Freigabe Authentifizierung, Autorisierung, TLS und Quoten. Dateizugriffe folgen erlaubten Dataset-IDs; Query-Parameter werden validiert, SQL-Werte gebunden. Unkontrollierte Pfadwahl, SQL-Ausführung und Plugin-Installation durch API-Nutzer sind ausgeschlossen.
+MVP-Bindung an Loopback/localhost gemäß ADR-0001. Öffentliche Erreichbarkeit erfordert vor Freigabe Authentifizierung, Autorisierung, TLS und Quoten. Dateizugriffe folgen erlaubten Dataset-IDs; Query-Parameter werden validiert, SQL-Werte gebunden. Unkontrollierte Pfadwahl, SQL-Ausführung und Plugin-Installation durch API-Nutzer sind ausgeschlossen.
 
 API-Schlüssel liegen in einem Secret Store beziehungsweise einer lokalen, nicht versionierten Konfiguration; keine Trade-/Withdrawal-Rechte für reine Datenaufnahme. Logs und Raw-Captures dürfen keine Tokens enthalten. Netzwerkfehler, Limits und Sperrantworten führen zu begrenzten Retries mit Backoff und nachvollziehbarem Cursor, nicht zu unendlichen Schleifen.
 
@@ -91,3 +91,7 @@ Wiederherstellungsablauf: Dienste anhalten oder konsistenten Stand wählen → P
 ## 7. Gemeinsame Definition of Done
 
 Ein Arbeitspaket ist abgeschlossen, wenn seine Akzeptanzkriterien nachgewiesen, Schnittstellen dokumentiert, relevante Korrektheits-/Fehlertests erfolgreich, Daten-/Lizenzannahmen benannt und nötige ADRs aktualisiert sind. Performanceaussagen enthalten Messumgebung und Grenzen. Unfertige Optionen erscheinen nicht als implementierte Features.
+
+## 8. AP01-Konkretisierung
+
+Der [AP01-Vertrag](08-ap01-contract.md) konkretisiert beide Research-Abläufe, Schnittstellen, Modulgrenzen, numerische Toleranzen und die Übergabe. Technische ADRs sind Vorschläge zur Abnahme. Softwaretests und Benchmarks werden erst in den nachfolgenden Arbeitspaketen ausgeführt.

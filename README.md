@@ -58,6 +58,8 @@ Browser-Nodes beschreiben den Analysegraphen. Große Berechnungen laufen auf dem
 | [Roadmap und Datenquellen](docs/06-roadmap-sources.md) | 14 Arbeitspakete, vier Phasen, Abhängigkeiten und Connector-Roadmap |
 | [Entscheidungen und Risiken](docs/07-decisions-risks.md) | Herkunft, Annahmen, offene Entscheidungen, Risiko- und ADR-Register |
 
+Für AP01: [Vertrag und Übergabe](docs/08-ap01-contract.md), [Domänenbegriffe](CONTEXT.md) und [Entscheidungsregister](docs/07-decisions-risks.md). AP01 ist zur Abnahme vorbereitet; technische ADRs und Rollenbesetzung sind noch offen.
+
 Empfohlener Einstieg: Scope → Architektur → Datenmodell → Roadmap. Für die Umsetzung sind zusätzlich die API-Verträge und das Entscheidungsregister maßgeblich.
 
 ## Entwicklungsstart

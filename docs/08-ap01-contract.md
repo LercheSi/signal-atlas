@@ -111,9 +111,15 @@ Ein reproduzierbarer Bericht bindet Scanversion, Konfiguration, Zeitpunkt und Da
 | D-09 Lizenz/Governance/Security | Produkt | Gewünschte Nutzung und Abhängigkeiten prüfen; vor öffentlicher Freigabe von Code |
 | D-11 Backup/Retention/Budgets | Betrieb | AP02-Volumen und Änderungsrate; Restore sowie RPO/RTO vor M1 |
 | D-13 Quellenverfügbarkeit und Datenrechte | Daten | Quellenblatt, belastbare Zeitnachweise und Nutzungsrechte; vor Importfreigabe/strikter Realanalyse |
-| D-18/D-19/D-20 vorgeschlagene Verträge | Architektur/Research | Beide beschriebenen Abläufe und F-11 abdecken; ADR-Annahme vor AP03 |
+| D-18/D-20 technische Vertragsgrenzen | Architektur/Research | Beide beschriebenen Abläufe und F-11 abdecken; ADR-Annahme vor AP03 |
 | D-06/D-15 zusätzliche Stores/native Module | Architektur | Reproduzierbarer Last-/Profilingnachweis; erst bei Ausbau, kein MVP-Gate |
 | D-16 Backtesting-Ziel | Research | Zeit-/Kosten-/Exportvertrag; AP14 |
 | D-17 Name/Marke | Produkt | Verfügbarkeit gesondert prüfen; vor öffentlicher Namensfestlegung |
 
 Die Wahl einzelner Bibliotheken oder einer Softwarelizenz wird durch AP01 nicht vorweggenommen. Änderungen an angenommenen ADRs erhalten einen versionierten Nachfolger.
+
+## 8. Dokumentationsprüfung
+
+Am 22. November 2026 geprüft: lokale Markdown-Dateiverweise, Abschnittsanker, geschlossene Codeblöcke, JSON-Beispiele, eindeutige ADR-Nummern/-Status, Abdeckung F-01 bis F-12 in der Übergabematrix und `git diff --check`. README dient als Einstieg zum Vertrag und zum ADR-Register.
+
+Das Repository enthält ausschließlich Dokumentation; Test-, Formatierungs-, Lint- und Typprüfungsbefehle für Anwendungscode sind noch nicht eingerichtet. Entsprechend wurden keine Softwaretests oder Benchmarks ausgeführt. Technische ADR-Annahme, Rollenbesetzung und spätere Implementierungsnachweise bleiben offen.
