@@ -137,7 +137,7 @@ class InventoryTests(unittest.TestCase):
         path.write_text("1735689600,1,2,1,2,3,1\n")
         with patch("tools.ap02.scan.digest", side_effect=PermissionError("denied")):
             self.assertTrue(run(self.config).name.endswith(".partial"))
-        with patch("tools.ap02.scan.digest", side_effect=["before", "after"]):
+        with patch("tools.ap02.scan.digest", side_effect=["before", "after", "after"]):
             self.assertTrue(run(self.config).name.endswith(".partial"))
         with (
             patch("tools.ap02.scan.digest", side_effect=KeyboardInterrupt),

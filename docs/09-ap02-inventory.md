@@ -54,10 +54,16 @@ vollständig verarbeitet, 2 unvollständig oder Konfigurationsfehler, 130 Abbruc
 |---|---|
 | `selection.jsonl` | Vor der Inhaltsprüfung festgehaltene Dateiauswahl mit Quelle, relativer Referenz, Klassifikation und Bytes |
 | `files.jsonl` | Physische Dateien, Rechte, Besitzer, SHA-256 vor/nach Verarbeitung, Bytes und Lesestatus |
+| `verification.jsonl` | Abschließende Hashprüfung aller zuvor lesbaren Dateien nach der Inhaltsprüfung |
 | `members.jsonl` | CSV-/Archivmitglieder, gebundene Archivhashes, Schemaidentität, Zeilenzahlen, Zeitabdeckung in UTC-Mikrosekunden und Befunde |
 | `findings.jsonl` | Einzelbefunde mit Datei, ggf. Archivmitglied, Zeilennummer und vergleichbaren Fundstellen |
 | `manifest.json` | Scan-/Ergebnisschema-Version, vollständige lokale Konfiguration samt Hash, Zeitpunkte, Hardware, Zähler, Formatmatrix und Benchmarkbereiche |
 | `report.md` | Lesbare lokale Zusammenfassung mit Verweisen auf Detailnachweise |
+
+Nach der Inhaltsprüfung werden sämtliche zuvor lesbaren Dateien erneut gehasht
+und die Pfadauswahl mit einer erneuten Verzeichnisinventur verglichen. Änderungen
+verhindern einen vollständigen Status. Der Scan besitzt keine exklusive Sperre
+gegen externe Schreiber; die Hashes belegen die jeweiligen Prüfzeitpunkte.
 
 Die Zeilennummer bezeichnet bei mehrzeiligen CSV-Records die letzte physische
 Zeile des Records. Identische numerische Werte werden unabhängig von dezimaler

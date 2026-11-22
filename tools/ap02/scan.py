@@ -103,6 +103,7 @@ class Analyzer:
         self.members = members
         self.counts: Counter[str] = Counter()
         self.formats: Counter[str] = Counter()
+        self.missing_points: Counter[str] = Counter()
 
     def finding(self, code: str, **details: Any) -> None:
         self.counts[code] += 1
@@ -225,6 +226,7 @@ class Analyzer:
                     else:
                         width = expected - previous[3]
                         missing = (start - previous[3] - 1) // width
+                    self.missing_points[source] += missing
                     self.finding(
                         "MISSING_GRID_POINTS",
                         source=source,
@@ -321,6 +323,12 @@ def run(config: Json) -> Path:
     manifest: Json = {
         "schema_version": 1,
         "scan_version": VERSION,
+        "implementation_sha256": hashlib.sha256(
+            b"".join(
+                path.name.encode() + b"\0" + path.read_bytes()
+                for path in sorted(Path(__file__).parent.glob("*.py"))
+            )
+        ).hexdigest(),
         "started_at": utc_now(),
         "status": "running",
         "configuration": config,
@@ -331,6 +339,16 @@ def run(config: Json) -> Path:
             "platform": platform.platform(),
             "python": platform.python_version(),
             "cpu_count": os.cpu_count(),
+            "cpu_model": next(
+                (
+                    line.split(":", 1)[1].strip()
+                    for line in Path("/proc/cpuinfo").read_text().splitlines()
+                    if line.startswith("model name")
+                ),
+                "unknown",
+            ),
+            "work_disk": dict(zip(("total", "used", "free"), shutil.disk_usage(work))),
+            "output_disk": dict(zip(("total", "used", "free"), shutil.disk_usage(output))),
             "memory_bytes": os.sysconf("SC_PAGE_SIZE") * os.sysconf("SC_PHYS_PAGES"),
         },
         "benchmark_status": "not_evaluated",
@@ -448,6 +466,49 @@ def run(config: Json) -> Path:
                         print(json.dumps(dict(counts), sort_keys=True), flush=True)
                         manifest["progress"] = dict(counts)
                         save()
+            print("Verifying final source hashes and selected paths", flush=True)
+            with (
+                (output / "verification.jsonl").open("w") as verification,
+                (output / "files.jsonl").open() as scanned,
+            ):
+                for line in scanned:
+                    record = json.loads(line)
+                    if "sha256_before" not in record:
+                        continue
+                    source = next(
+                        item for item in config["sources"] if item["id"] == record["source"]
+                    )
+                    path = Path(source["root"]) / record["path"]
+                    result: Json = {"source": source["id"], "path": record["path"]}
+                    try:
+                        if not stat.S_ISREG(path.lstat().st_mode):
+                            raise ValueError("source replaced by nonregular file")
+                        result["sha256_final"] = digest(path)
+                        result["unchanged"] = result["sha256_final"] == record["sha256_before"]
+                        if not result["unchanged"]:
+                            counts["errors"] += 1
+                    except (OSError, ValueError) as error:
+                        result.update(unchanged=False, error=str(error))
+                        counts["errors"] += 1
+                    emit(verification, result)
+            initial_paths = hashlib.sha256()
+            with (output / "selection.jsonl").open() as selection:
+                for line in selection:
+                    item = json.loads(line)
+                    initial_paths.update(
+                        json.dumps([item["source"], item["path"]]).encode() + b"\n"
+                    )
+            final_paths = hashlib.sha256()
+            for source in config["sources"]:
+                root = Path(source["root"])
+                for path in walk(root, errors):
+                    final_paths.update(
+                        json.dumps([source["id"], path.relative_to(root).as_posix()]).encode()
+                        + b"\n"
+                    )
+            manifest["selected_paths_unchanged"] = initial_paths.digest() == final_paths.digest()
+            if not manifest["selected_paths_unchanged"]:
+                counts["errors"] += 1
             print("Computing cross-file grid gaps", flush=True)
             analyzer.gaps()
             manifest["benchmarks"] = analyzer.benchmarks(config.get("benchmark_mappings", []))
@@ -461,6 +522,7 @@ def run(config: Json) -> Path:
                 )
             )
             manifest["format_matrix"] = dict(analyzer.formats)
+            manifest["missing_grid_points"] = dict(analyzer.missing_points)
             manifest["findings"] = dict(analyzer.counts)
             manifest["directory_errors"] = errors
             manifest["counts"] = dict(counts)
@@ -480,6 +542,7 @@ def run(config: Json) -> Path:
         raise
     finally:
         if analyzer:
+            manifest["missing_grid_points"] = dict(analyzer.missing_points)
             manifest["findings"] = dict(analyzer.counts)
             manifest["format_matrix"] = dict(analyzer.formats)
             analyzer.database.close()
@@ -594,6 +657,7 @@ def report(manifest: Json) -> str:
                     "counts",
                     "findings",
                     "format_matrix",
+                    "missing_grid_points",
                     "benchmarks",
                     "directory_errors",
                     "limitations",
