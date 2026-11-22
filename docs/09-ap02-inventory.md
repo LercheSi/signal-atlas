@@ -134,7 +134,12 @@ Befunde bei abweichenden Laufmetadaten.
   Die Qualitätsprüfung meldet bei Kraken 48 Lückenbereiche mit insgesamt 87
   fehlenden Rasterpunkten; keine Parsefehler. Diese Befunde sind keine
   nachgewiesenen Lieferfehler und werden nicht aufgefüllt.
-- Der reale Gesamtscan ist gestartet. Die lokalen Dateien
+- Die vollständige Dateiauswahl des Gesamtscans ist abgeschlossen: 1.069.501
+  physische Einträge mit insgesamt 143.809.978.204 Bytes; davon 966.894 als
+  Original klassifiziert, 102.586 abgeleitet, 14 Begleitdateien und sieben
+  unbekannt. Archivmitglieder werden zusätzlich erfasst und sind in dieser
+  physischen Dateizahl nicht einzeln enthalten.
+- Der reale Gesamtscan verarbeitet jetzt Inhalte und Hashes. Die lokalen Dateien
   `.local/ap02/config.json`, `.local/ap02/process.json` und
   `.local/ap02/full-scan.log` enthalten Konfiguration, Prozess-/Codeidentität
   und Fortschritt. Ergebnisse und Arbeitsindex liegen außerhalb der Quellen
