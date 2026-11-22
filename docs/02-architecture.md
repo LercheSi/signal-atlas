@@ -41,6 +41,20 @@ Das Diagramm zeigt logische Datenflüsse, keine abgeschlossenen verteilten Trans
 | Workspace Service | Graphversionen, Layout, Parameter, Run-Verweise | Layout ist keine Datenversion |
 | Frontend | Datenbrowser, Canvas, Charts, Fehler und Provenienz | Keine autoritative Statistik auf heruntergesampelten Charts |
 
+### Connector-Fähigkeiten
+
+Die gemeinsame Metadatenschicht beschreibt Quelle, Schema, Datenarten, Zeit- und Revisionssemantik. Jeder Adapter deklariert versionierte Fähigkeiten:
+
+| Feld | Bedeutung |
+|---|---|
+| `data_kinds` | Unterstützte Datenarten, etwa `candle`, `trade`, `order_book`, `funding`, `macro_observation`, `news_event` oder `onchain_transfer` |
+| `historical_backfill` | Historische Daten abrufen oder importieren |
+| `live_stream` | Kontinuierliche Updates liefern |
+| `point_in_time` | Historische Veröffentlichungs- und Revisionsstände für deklarierte Reihen und Zeiträume belegen |
+| `replay` | Einen aufgenommenen Eingabebestand deterministisch erneut abspielen |
+
+Provider-spezifische Parser, Authentifizierung, Rate-Limits und Replay-Mechanik liegen in den Adaptern. Die Normalisierung bildet Rohdaten auf versionierte kanonische Schemata je Datenart ab. Der generische Katalog, die Abfrage und der Analyse-Executor verwenden diese Schemata und deklarierte Fähigkeiten. Historischer Import allein belegt keine historische Verfügbarkeit.
+
 ## 3. Technologieeinsatz
 
 Python steuert Import, Geschäftslogik und statistische Module. Polars übernimmt tabellarische Transformationen; DuckDB dient SQL-Abfragen über den historischen Bestand. Verantwortlichkeiten pro Pipeline werden explizit gewählt, statt Daten bei jedem Node zwischen beiden Engines zu kopieren.

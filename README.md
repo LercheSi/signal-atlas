@@ -2,27 +2,35 @@
 
 **Explore Data. Discover Connections.**
 
-Open-Source-Plattform für Crypto Intelligence und interaktive quantitative Forschung.
+Modularer Research Workspace für explorative Finanzmarkt- und Ereignisforschung mit Kryptowährungen als erstem fachlichen Schwerpunkt.
 SignalAtlas verbindet historische Marktdaten mit später hinzukommenden Derivate-, Makro-, On-Chain- und Ereignisdaten. Forschende stellen Datenquellen, Transformationen, statistische Verfahren und Visualisierungen auf einer gemeinsamen Arbeitsfläche zusammen und untersuchen überprüfbare Hypothesen.
 
 > **Projektstatus: Planung / technische Konzeption, Stand 22. November 2026.** Dieses Paket beschreibt das Zielsystem. Es enthält keine ausführbare Anwendung und bestätigt keine bereits implementierten Funktionen. Die Technologien und Detailverträge sind teilweise Architekturvorschläge; ihr Status steht im [Entscheidungsregister](docs/07-decisions-risks.md).
 
 ## Ziel und Abgrenzung
 
-Der erste produktive Nutzen ist ein reproduzierbarer Research Workspace für vorhandene Binance- und Kraken-Zeitreihen. Der Mensch formuliert Fragen, variiert Parameter, vergleicht Ergebnisse und beurteilt deren Aussagekraft. Auffällige Korrelationen sind Forschungsbefunde und noch keine profitablen Handelssignale.
+Der Plattformkern ist unabhängig von Datenanbietern, Handelsplätzen, Instrumenten und Asset-Klassen konzipiert. Versionierte Connector-Verträge ermöglichen die Integration weiterer Quellen. Vorhandene Binance- und Kraken-Zeitreihen dienen als Pilotdaten für reproduzierbare Analysen. Der Mensch formuliert Fragen, variiert Parameter, vergleicht Ergebnisse und beurteilt deren Aussagekraft. Auffällige Korrelationen sind Forschungsbefunde und noch keine profitablen Handelssignale.
 
 Automatische Mustererkennung und die Übergabe an Strategieforschung folgen später. Autonomes Echtgeld-Trading gehört ausdrücklich nicht zu den vier geplanten Phasen. Eine Ausführungsengine wäre ein getrenntes Modul mit eigenem Risikomodell.
 
 ## Research MVP v0.1
 
-- Vorhandene Binance- und Kraken-OHLCV-Daten über einen gemeinsamen Katalog auswählen.
+- Unterstützte Datensätze über einen gemeinsamen Katalog auswählen. Binance und Kraken liefern die OHLCV-Referenzdaten. Synthetische, unregelmäßige Ereignisse bilden den zweiten Referenzdatentyp.
 - Mindestens zwei Zeitreihen anzeigen und ihre Zeitachsen synchron zoomen.
 - Quellen, Transformationen, Analysen und Charts als Nodes verbinden.
 - Korrelation und Lead-Lag untersuchen, Parameter ändern und Ergebnisse neu berechnen.
+- Ereignisse mit Kurszeitreihen über eine explizite Zeitregel verknüpfen und als Marker anzeigen.
 - Arbeitsflächen speichern und wiederherstellen.
 - Datenherkunft, Datenversion, Zeitannahmen und Analyseparameter nachvollziehen.
 
 Das MVP erfordert weder vollständige On-Chain-Integration noch KI-Agenten, Tick-Orderbücher oder Live-Ausführung. Vollständige statistische Verfahren aus AP 08 können nach dem ersten MVP schrittweise folgen; die genaue Mindestmenge ist in [Scope und Anforderungen](docs/01-product-scope.md) abgegrenzt.
+
+| Architekturziel | Referenzumfang v0.1 |
+|---|---|
+| Mehrere Handelsplätze und Anbieter | Binance- und Kraken-Importadapter und ein separater synthetischer Event-Adapter |
+| Heterogene Daten | OHLCV-Zeitreihen und unregelmäßige Ereignisse |
+| Erweiterbare Analysen | Versionierter Plugin-Vertrag und geprüfte Basisanalysen |
+| Weitere Finanzmärkte | Marktübergreifendes Datenmodell, erster fachlicher Schwerpunkt Krypto |
 
 ## Technische Richtung
 
@@ -54,9 +62,9 @@ Empfohlener Einstieg: Scope → Architektur → Datenmodell → Roadmap. Für di
 
 ## Entwicklungsstart
 
-1. AP 01: MVP-Scope und Zeitsemantik als ADRs bestätigen.
+1. AP 01: MVP-Scope, Quellenunabhängigkeit, Connector-Grenzen und Zeitsemantik als ADRs bestätigen.
 2. AP 02: Originaldaten unverändert inventarisieren; Formate, Größen und Qualität messen.
-3. AP 03: Einen reproduzierbaren Importpfad und einen unveränderlichen Datensnapshot umsetzen.
+3. AP 03: Den reproduzierbaren Import- und Snapshot-Pfad mit OHLCV und synthetischen Ereignissen umsetzen.
 4. AP 04: Einen vertikalen Pfad von der Datenabfrage bis zur Lead-Lag-Analyse benchmarken.
 5. AP 05–08: Diesen Pfad über die speicherbare Arbeitsfläche zugänglich machen.
 

@@ -21,15 +21,15 @@ Die Namen und Reihenfolge stammen aus dem Gespräch; Liefergegenstände, Abnahme
 
 **Ziel:** tragfähige Verträge und MVP-Grenzen. **Abhängigkeit:** keine.
 
-Lieferumfang: bestätigter Scope, Komponenten- und Datenmodell, Zeitpolicy, Plugin-/API-Entwurf, Repository-Struktur und erste ADRs. Entscheidungen zu Lizenz, Laufzeitversionen und lokaler Betriebsform werden vorbereitet.
+Lieferumfang: bestätigter Scope, ADRs zu Anbieter- und Handelsplatzunabhängigkeit sowie Connector- und Modalitätsgrenzen, Komponenten- und Datenmodell, Zeitpolicy, Plugin-/API-Entwurf, Repository-Struktur und erste ADRs. Entscheidungen zu Lizenz, Laufzeitversionen und lokaler Betriebsform werden vorbereitet.
 
-**Abnahme:** Zwei konkrete Research-Abläufe sind bis zu Eingangsdaten, Outputs und Zeitannahmen beschrieben; offene Entscheidungen besitzen Owner/Rolle und Entscheidungskriterium; kein autonomes Trading im Scope. Verantwortliche Personen müssen noch benannt werden.
+**Abnahme:** Der börsenübergreifende OHLCV-Vergleich und der heterogene OHLCV-/Event-Ablauf sind mit Eingaben, Ergebnissen und Zeitannahmen beschrieben; offene Entscheidungen besitzen Owner/Rolle und Entscheidungskriterium; kein autonomes Trading im Scope. Verantwortliche Personen müssen noch benannt werden.
 
 ### AP 02 · Dateninventur und Qualitätsanalyse
 
 **Ziel:** belegter Ausgangsbestand statt angenommener Datenqualität. **Abhängigkeit:** Inventurvertrag aus AP 01.
 
-Lieferumfang: schreibgeschützter Scan aller bereitgestellten OHLCV-Dateien, Hashes, Größen, Formate, Märkte, Auflösungen, Zeiträume, Duplikate, Lücken und Konflikte. Physische Speicherorte und Zugriffsrechte werden erfasst, bevor irgendetwas verschoben wird.
+Lieferumfang: schreibgeschützter Scan aller bereitgestellten Binance-/Kraken-OHLCV-Dateien, Hashes, Größen, Formate, Märkte, Auflösungen, Zeiträume, Duplikate, Lücken und Konflikte. Physische Speicherorte und Zugriffsrechte werden erfasst, bevor irgendetwas verschoben wird.
 
 **Abnahme:** Inventar und reproduzierbarer Qualitätsbericht decken alle bereitgestellten Dateien ab; nicht lesbare Dateien sind separat ausgewiesen; Originalhashes bleiben unverändert. Repräsentative Benchmarkausschnitte sind festgelegt.
 
@@ -37,9 +37,9 @@ Lieferumfang: schreibgeschützter Scan aller bereitgestellten OHLCV-Dateien, Has
 
 **Ziel:** Raw-/Normalized-/Derived-Modell mit historischer Verfügbarkeit. **Abhängigkeit:** AP 01, AP 02.
 
-Lieferumfang: Importer für bestätigte Binance-/Kraken-Formate, Instrumentkatalog, UTC-/Einheitennormalisierung, Quarantäne, versionierte Parquet-Snapshots und Commit-Protokoll.
+Lieferumfang: Versionierte Connector- und Normalizer-Verträge für Raw, Normalized und Derived, Instrument- und Entitykatalog, Zeit- und Qualitätsmodell, Quarantäne, versionierte Parquet-Snapshots und Commit-Protokoll. Zwei Pilotadapter importieren die bestätigten Binance-/Kraken-Formate. Ein separat registrierter synthetischer Event-Adapter verwendet denselben Importpfad.
 
-**Abnahme:** Wiederholter Import erzeugt keine fachlichen Duplikate; Korrekturen bleiben nachvollziehbar; ein Snapshot ist vollständig oder unsichtbar; unbekannte Verfügbarkeit wird nicht verschleiert; alle Werte verweisen auf Raw-Daten.
+**Abnahme:** Wiederholter Import erzeugt keine fachlichen Duplikate; Korrekturen bleiben nachvollziehbar; ein Snapshot ist vollständig oder unsichtbar; unbekannte Verfügbarkeit wird nicht verschleiert; alle Werte verweisen auf Raw-Daten. Der Event-Adapter erfüllt F-11 und die Connector-Vertragstests.
 
 ### AP 04 · Backend und Performance-Grundlage
 
@@ -47,9 +47,9 @@ Lieferumfang: Importer für bestätigte Binance-/Kraken-Formate, Instrumentkatal
 
 Lieferumfang: Query-/Job-API, DuckDB-/Polars-Pfade, Worker, Limits, Cache, Benchmarkreport und erste Wiederherstellung. Schwergewichtige Analyse darf asynchron sein.
 
-**Abnahme:** Mehrjahresreihen beider Quellen über gleiche API abrufbar; Referenzbenchmarks dokumentiert; Jobabbruch und Crash-Recovery geprüft; Cache unterscheidet Daten-/Code-/Zeitpolicy-Versionen.
+**Abnahme:** OHLCV-Zeitreihen beider Pilotquellen und unregelmäßige Ereignisse sind über dieselbe Query- und Job-API nutzbar; Referenzbenchmarks dokumentiert; Jobabbruch und Crash-Recovery geprüft; Cache unterscheidet Daten-/Code-/Zeitpolicy-Versionen.
 
-**M1:** Historische Binance-/Kraken-Daten sind ohne Kenntnis der ursprünglichen Formate über eine gemeinsame API nutzbar.
+**M1:** Daten aus zwei getrennt implementierten Handelsplatzadaptern und einem synthetischen Event-Adapter sind über den gemeinsamen Katalog und dieselbe Abfrageschnittstelle nutzbar. Für beide Datentypen sind versionierte Parquet-Snapshots, Raw-Herkunft, Qualitätsberichte und Zeitsemantik nachvollziehbar.
 
 ## 3. Phase 2 · Interactive Research Workspace
 
@@ -57,27 +57,27 @@ Lieferumfang: Query-/Job-API, DuckDB-/Polars-Pfade, Worker, Limits, Cache, Bench
 
 **Ziel:** nutzbare React-/TypeScript-Anwendung. **Abhängigkeit:** API-Vertrag AP 01/04.
 
-Lieferumfang: Navigation, Layout, Datenbrowser, Einstellungen, Fehler-/Ladezustände und Metadatenanzeige. **Abnahme:** Datenbestand mit Zeiträumen und Qualitätsstatus auswählbar; nicht verfügbare Daten werden verständlich ausgewiesen.
+Lieferumfang: Navigation, Layout, Datenbrowser, Einstellungen, Fehler-/Ladezustände und Metadatenanzeige. **Abnahme:** Candles und Ereignisse nach Datentyp, Quelle, Entity/Instrument, Zeitbereich, Qualität und Verfügbarkeit auswählbar; nicht verfügbare Daten werden verständlich ausgewiesen.
 
 ### AP 06 · Interaktive Arbeitsfläche
 
 **Ziel:** speicherbarer Analysegraph. **Abhängigkeit:** AP 05 sowie Plugin-/Jobvertrag AP 04/08.
 
-Lieferumfang: Nodes und Ports, Kantenprüfung, Parameterformulare, Graph-/Layoutversionen, Laden und Speichern. **Abnahme:** Quelle → Analyse → Output ausführbar; Zyklen und Typfehler blockiert; Reload rekonstruiert Graph; verspätete Ergebnisse überschreiben keinen neueren Parameterstand.
+Lieferumfang: Nodes und Ports, Kantenprüfung, Parameterformulare, Graph-/Layoutversionen, Laden und Speichern. **Abnahme:** Quelle → Analyse → Output sowie Ereignisse + OHLCV → Alignment → Analyse → Chart ausführbar; Zyklen und Typfehler blockiert; Reload rekonstruiert Graph; verspätete Ergebnisse überschreiben keinen neueren Parameterstand.
 
 ### AP 07 · Visualisierungsengine
 
 **Ziel:** interpretierbare Ergebnisse und synchronisierte Zeitachsen. **Abhängigkeit:** AP 05, Queryvertrag AP 04; Integration mit AP 06.
 
-Lieferumfang: Zeitreihencharts, Heatmaps, synchroner Zoom/Cursor, Datenlückenanzeige, begrenzter Transfer und Darstellungsaggregation. **Abnahme:** mindestens zwei Reihen teilen denselben sichtbaren UTC-Bereich; Display-Downsampling verändert keine Analysewerte; Einheiten und Lag-Konvention sind erkennbar.
+Lieferumfang: Zeitreihencharts, Heatmaps, synchroner Zoom/Cursor, Ereignismarker mit Zeitbezug, Datenlückenanzeige, begrenzter Transfer und Darstellungsaggregation. **Abnahme:** mindestens zwei Reihen teilen denselben sichtbaren UTC-Bereich; Display-Downsampling verändert keine Analysewerte; Einheiten und Lag-Konvention sind erkennbar.
 
 ### AP 08 · Statistical Research Engine
 
 **Ziel:** versionierte statistische Analyseplugins. **Abhängigkeit:** Daten-/Zeitvertrag AP 03, Worker AP 04.
 
-Lieferumfang: MVP-Verfahren gemäß Scope; danach Stationarität/Cointegration, Regression/Faktoren, Anomalien/Strukturbrüche und Signifikanzverfahren. **Abnahme:** synthetische Referenzen, bekanntes Lag, Nullfälle und Fehlereingaben geprüft; Ergebnisse tragen Methode, Parameter, Stichprobe, Unsicherheit und Lineage. Erweiterter Releaseumfang bleibt D-08.
+Lieferumfang: MVP-Verfahren gemäß Scope einschließlich deskriptiver Renditezusammenfassung zu Ereignissen und Cutoff-Prüfung; danach Stationarität/Cointegration, Regression/Faktoren, Anomalien/Strukturbrüche und Signifikanzverfahren. **Abnahme:** synthetische Referenzen, bekanntes Lag, Nullfälle und Fehlereingaben geprüft; Ergebnisse tragen Methode, Parameter, Stichprobe, Unsicherheit und Lineage. Erweiterter Releaseumfang bleibt D-08.
 
-**M2:** Vollständiger MVP-Abnahmelauf aus [Scope](01-product-scope.md) erfolgreich. Nutzer können Daten verbinden, visuell/statistisch untersuchen und Arbeitsflächen reproduzierbar erneut öffnen.
+**M2:** Beide [MVP-Abnahmeläufe](01-product-scope.md) sind erfolgreich. Der Workspace unterstützt den Vergleich zweier OHLCV-Reihen sowie einen OHLCV-/Event-Graphen mit explizitem Alignment, Verfügbarkeitsprüfung und gemeinsamer Darstellung. Beide Arbeitsflächen lassen sich speichern, laden und mit denselben Eingaben reproduzierbar ausführen.
 
 ## 4. Phase 3 · Market Intelligence
 
@@ -87,7 +87,7 @@ Lieferumfang: MVP-Verfahren gemäß Scope; danach Stationarität/Cointegration, 
 
 Lieferumfang: zuerst Derivate, dann Makro, Blockchain-/Stablecoin-Flüsse, anschließend Nachrichten. Jeder Connector erhält Quellenblatt, Rechteprüfung, Zeitmodell, Rate-Limit- und Backfill-Verhalten.
 
-**Abnahme:** wenigstens ein priorisierter Connector durchläuft Import, Qualität und zeitlich sicheren Join; weitere Connectoren haben jeweils eigene Akzeptanzkriterien. „Alle Anbieter angebunden“ ist kein realistisches Sammelkriterium.
+**Abnahme:** Mehrere produktive Connectoren erweitern den Bestand. Mindestens ein priorisierter Connector durchläuft Import, Qualität und zeitlich sicheren Join; weitere Connectoren haben jeweils eigene Akzeptanzkriterien. „Alle Anbieter angebunden“ ist kein realistisches Sammelkriterium.
 
 ### AP 10 · Event- und Relationship-Engine
 
@@ -138,6 +138,7 @@ Die folgenden Namen sind Kandidaten beziehungsweise Quellklassen, keine Zusage a
 | Stufe | Daten | Mögliche Herkunft | Zentrale Prüfung |
 |---|---|---|---|
 | MVP | vorhandene OHLCV-Daten | lokaler Binance-/Kraken-Bestand | Herkunft, Format, Quote-Asset, Lücken, Candle-Ende |
+| MVP | unregelmäßige Veröffentlichungsereignisse | synthetische Fixtures über separat registrierten Adapter | Entity-Bezug, Verfügbarkeit, Revisionen, Alignment und Darstellung |
 | 1 | Funding, Open Interest, Basis | Börsen-APIs / lizenzierte Archive | predicted vs. realized, Einheit, Historientiefe |
 | 2 | Makro und Releases | öffentliche Statistik-/Zentralbankquellen; Vintage-Archive | Referenzperiode, Releasekalender, Revisionen |
 | 3 | Blockchain und Stablecoin-Flüsse | Nodes, Explorer oder Indexer | Chain-Reorgs, Finalität, Entity-Labels, Token-Decimals |
@@ -150,3 +151,16 @@ Die folgenden Namen sind Kandidaten beziehungsweise Quellklassen, keine Zusage a
 Pflichtangaben: Anbieter/Quell-ID, Dokumentations-URL, Nutzungs-/Weiterverteilungsrechte mit Prüfdatum, Authentifizierung und Secret-Referenz, Datenarten, Instrumentabdeckung, historischer Zeitraum, Pagination, Limits, Cursor, Ausfallstrategie, Quellzeitdefinition, Revisionen, Präzision, Einheit, Qualitätsprüfung und verantwortliche Rolle. Fehlen historische Vintages, ist diese Einschränkung maschinenlesbar zu speichern.
 
 Eine neue Quelle wird bevorzugt, wenn sie eine konkrete Forschungsfrage verbessert, historische Verfügbarkeit nachvollziehbar ist und Import/Betrieb finanziell wie technisch tragbar bleiben. Datenmenge allein ist kein Prioritätskriterium.
+
+### Vorgeschlagene Umsetzungstickets
+
+| Priorität | Ticket | Nachweis |
+|---|---|---|
+| P0 | ADR zu Quellen- und Handelsplatzunabhängigkeit | Plattformgrenzen und Pilotumfang sind dokumentiert |
+| P0 | Connector-Fähigkeiten und Schemata | Metadaten, Zeitsemantik und Import-/Replay-Fähigkeiten sind versioniert |
+| P0 | Kanonische Ereignisdaten | Synthetische Ereignisse durchlaufen Import, Snapshot und Abfrage mit Revisionen |
+| P0 | Connector-Vertragstests | Gemeinsame Suite prüft Candle- und Event-Adapter |
+| P1 | Heterogener Workspace-Abnahmelauf | Ereignisse und Kurszeitreihe sind zeitlich korrekt verknüpft und visualisiert |
+| P1 | Katalog- und Abfragefilter | Datentyp, Quelle, Entity/Instrument, Zeitbereich, Qualität und Verfügbarkeit sind filterbar |
+| P1 | Konsistenz der Release-Dokumentation | README, Scope und Roadmap beschreiben dieselbe Abnahme |
+| P2 | Dokumentation für Veröffentlichung | Öffentliche Texte beschreiben die Projektgrundlage ohne interne Erstellungsmetadaten |

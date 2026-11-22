@@ -10,6 +10,18 @@ Assets erhalten stabile interne IDs. Instrumente beschreiben zusätzlich Venue, 
 
 **Vorschlag:** UUIDs oder gleichwertige stabile IDs für interne Identitäten; Quell-IDs bleiben separat erhalten. Jede Tabelle trägt eine Schemaversion. Einheiten sind explizit: Basisvolumen, Quotevolumen, Funding pro Periode, Preis in Quote pro Basiseinheit. Decimal-Skalierung beziehungsweise Integer-Ticks bewahren Quellpräzision; statistische Arrays dürfen nach dokumentierter Konvertierung Float64 verwenden.
 
+| Identität | Bedeutung | Beispiel |
+|---|---|---|
+| `provider_id` | Organisation oder System, das Daten bereitstellt | Statistikamt |
+| `source_id` | Konkreter Ursprung oder Importkanal | Veröffentlichungsfeed oder Dateiarchiv |
+| `venue_id` | Handelsplatz des Instruments, soweit fachlich vorhanden | Binance, Kraken |
+| `instrument_id` | Konkretes handelbares Instrument | BTC/USDT Spot auf Binance |
+| `entity_id` | Fachlicher Bezug eines Datensatzes | Bitcoin, Zentralbank oder US-Leitzins |
+| `dataset_id` | Logische Reihe oder Sammlung | BTC-Candles oder Makro-Veröffentlichungen |
+| `snapshot_id` | Unveränderlicher Stand eines Datensatzes | Versionierter Importstand |
+
+Makroereignisse können über eine Entity referenziert werden. Venue, Instrument, Base-/Quote-Asset, Candle-Intervall und Preis sind nur Pflichtfelder der jeweils passenden Datentypen. Historische Abfragen binden die Mapping-Version für Quell- und Instrumenten-Aliase, damit eine spätere Katalogänderung eingefrorene Läufe nicht rückwirkend verändert.
+
 ## 2. Gemeinsame Ereignishülle
 
 Die folgenden Felder sind ein Zielvertrag, keine Forderung nach einer einzigen universellen physischen Tabelle. Typspezifische Tabellen teilen diese Semantik.
@@ -19,6 +31,7 @@ Die folgenden Felder sind ein Zielvertrag, keine Forderung nach einer einzigen u
 | `record_id` | Identität einer unveränderlichen Revision |
 | `logical_id` | Identität des fachlichen Fakts über Revisionen hinweg |
 | `source_id`, `source_record_id` | Herkunft und optionale Quellidentität |
+| `dataset_id` | Logische Reihe oder Sammlung im Katalog |
 | `instrument_id` / `entity_id` | Fachliche Zuordnung; typabhängig |
 | `event_time` | Zeitpunkt des Ereignisses bzw. fachlicher Referenzzeitpunkt |
 | `published_at` | Zeitpunkt der Veröffentlichung dieser Revision; nullable |
@@ -69,6 +82,8 @@ Fachlicher Schlüssel: Quelle, Instrument, Intervall, Bar-Start und Datenvariant
 | Beziehungen | Subjekt, Relation, Objekt, fachliche Gültigkeit, Bekanntheitszeit und Zuordnungskonfidenz |
 
 Eine Beziehung wie „Wallet gehört zu Exchange X“ darf in historischen Analysen erst ab ihrer damaligen Bekanntheit verwendet werden. Das gilt auch für später erkannte Token-Aliase und rückwirkende Entity-Labels.
+
+Für den synthetischen Event-Adapter sieht der MVP einen Datentyp für Veröffentlichungsereignisse vor. Er kombiniert die gemeinsame Ereignishülle mit Ereignistyp und Entity-Bezug sowie optionalen strukturierten Attributen mit deklarierter Einheit. Ereignisse können unregelmäßig auftreten. Die Abfrage erhält Originalzeitpunkte und Revisionsinformationen.
 
 ## 6. Punkt-in-Zeit-Abfragen und Revisionen
 

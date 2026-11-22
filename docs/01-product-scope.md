@@ -8,7 +8,7 @@
 
 ## 2. Vision und Nutzer
 
-**Kontextfestlegung:** SignalAtlas ist ein Crypto Intelligence & Research Workspace. Der ursprüngliche Arbitrage-Kontext ist ein möglicher Forschungsfall; das Produkt ist breiter angelegt. Die Architektur soll später weitere Finanzmärkte aufnehmen können, ohne das MVP darauf auszudehnen.
+**Kontextfestlegung:** SignalAtlas ist ein modularer Arbeitsplatz für explorative Finanzmarkt- und Ereignisforschung. Die Architektur ist unabhängig von einzelnen Anbietern, Handelsplätzen, Instrumenten und Asset-Klassen. Kryptowährungen sind der erste fachliche Schwerpunkt. Binance und Kraken dienen als Pilotquellen. Börsenübergreifende Arbitrage ist ein möglicher Forschungsfall.
 
 **Annahme A-01:** Zunächst arbeitet eine technisch versierte Person lokal oder auf einem privaten Server mit vorhandenen historischen Daten. Ein öffentlich erreichbarer Mehrmandantendienst ist kein MVP-Ziel.
 
@@ -26,7 +26,7 @@ Der Workspace soll Exploration erleichtern, zugleich aber die Grenze zwischen ex
 
 | ID | Zielanforderung | Überprüfbare Abnahme |
 |---|---|---|
-| F-01 | Datenkatalog für vorhandene OHLCV-Bestände | Inventarisierte unterstützte Binance-/Kraken-Reihen sind nach Instrument, Quelle, Intervall und Zeitraum auffindbar |
+| F-01 | Quellenübergreifender Katalog für unterstützte Datentypen | Binance-/Kraken-OHLCV und synthetische Ereignisse sind nach Quelle, Datentyp, Entity oder Instrument, Zeitbereich, Qualität und Verfügbarkeitsstatus auffindbar. Das Intervall ist für Candles filterbar |
 | F-02 | Einheitliche Abfrage | Dieselben Filter liefern unabhängig vom Ursprungsformat dasselbe kanonische Schema |
 | F-03 | Mehrere Charts | Mindestens zwei Quellen gemeinsam sichtbar; Zoom und Cursor besitzen dieselbe UTC-Zeitbasis |
 | F-04 | Node-Arbeitsfläche | Quelle → Transformation → Analyse → Chart ist verbindbar; unzulässige Typen und Zyklen werden abgewiesen |
@@ -35,9 +35,11 @@ Der Workspace soll Exploration erleichtern, zugleich aber die Grenze zwischen ex
 | F-07 | Persistenz | Speichern, Schließen, Laden rekonstruiert Graph, Parameter, Datenreferenzen und Layout |
 | F-08 | Herkunft | Jedes Ergebnis verweist auf Snapshot, Code-/Plugin-Version, Parameter und zeitliche Policy |
 | F-09 | Zeitliche Sicherheit | Historischer Punkt-in-Zeit-Modus weist unbekannte Verfügbarkeit zurück oder markiert einen ausdrücklich gewählten Annahmemodus |
-| F-10 | Export | Vorschlag: Ergebnisdaten plus Run-Manifest exportieren; Rechtebeschränkungen des Datensatzes beachten |
+| F-10 | Export | Im Event-Vertragstest lassen sich Ergebnisdaten und Run-Manifest unter Beachtung der Datenrechte exportieren. Der Umfang einer allgemeinen Exportfunktion bleibt ein Vorschlag |
+| F-11 | Erweiterbarkeit der Datenquellen | Ein separater synthetischer Event-Adapter ergänzt die Pilotadapter per Konfiguration und Registrierung. Er verwendet die vereinbarten Schemata und benötigt keine Änderung am Query-/Research-Kern, Executor oder kanonischen Modell |
+| F-12 | Heterogener Analysegraph | Unregelmäßige Ereignisse und OHLCV werden auf einer Zeitachse dargestellt und über einen expliziten Alignment-Node mit Richtung, Altersgrenze und Zeitpolicy für die Analyse verbunden |
 
-„Beliebige vorhandene Reihe“ bedeutet innerhalb der nach AP 02 bestätigten Formate und Instrumenttypen. Der Import unbekannter Formate wird nicht stillschweigend garantiert.
+Die unterstützten OHLCV-Formate und Instrumenttypen werden in AP 02 ermittelt. Das kanonische Event-Schema und der synthetische Adapter gehören zum Referenzumfang. Die produktive Anbindung weiterer Anbieter folgt in AP 09.
 
 AP 08 hat einen größeren Zielumfang als F-05: Stationarität, Cointegration, Regression, Faktoren, Anomalien und Strukturbrüche sind geplante Module. **Offen D-08:** Welche davon blockieren M2? Vorschlag: MVP zunächst mit F-05 abnehmen und weitergehende Verfahren als getrennte Issues führen.
 
@@ -55,9 +57,11 @@ AP 08 hat einen größeren Zielumfang als F-05: Stationarität, Cointegration, R
 
 ## 5. Konkreter MVP-Abnahmelauf
 
-Ein versionierter synthetischer Datensatz enthält zwei Märkte mit absichtlich eingebautem Lag, einer Datenlücke, einem Duplikat und einer nachträglichen Korrektur. Der Import weist alle Besonderheiten aus. Die Arbeitsfläche berechnet Renditen und findet den erwarteten Lag innerhalb der festgelegten Testtoleranz. Ein ungültiger Join wird abgewiesen. Ein Lauf vor der Korrektur sieht deren neuen Wert nicht. Nach Speichern und Wiederladen ist das Run-Manifest identisch; Zahlen stimmen innerhalb dokumentierter numerischer Toleranzen überein. Eine Parameteränderung löst einen getrennten Lauf aus.
+Ein versionierter synthetischer Datensatz enthält zwei Märkte mit absichtlich eingebautem Lag, einer Datenlücke, einem Duplikat und einer nachträglichen Korrektur. Der Import weist alle Besonderheiten aus. Die Arbeitsfläche berechnet Renditen und findet den erwarteten Lag innerhalb der festgelegten Testtoleranz. Ein ungültiger Join wird abgewiesen. Ein Lauf vor der Korrektur sieht deren neuen Wert nicht. Nach Speichern, Wiederladen und erneutem Ausführen stimmen die fachlichen Manifestangaben überein. Ergebniswerte stimmen innerhalb dokumentierter numerischer Toleranzen überein. Lauf-ID und Ausführungszeiten können sich unterscheiden. Eine Parameteränderung löst einen getrennten Lauf aus.
 
 Zusätzlich wird derselbe Ablauf mit einem nach AP 02 ausgewählten realen Binance-/Kraken-Ausschnitt ausgeführt. Ein unbereinigter USD-/USDT-Preisvergleich darf keinen als Arbitrage interpretierbaren Spread ausgeben.
+
+Ein zweiter Abnahmelauf kombiniert vorhandene Candles einer Pilotquelle mit synthetischen, unregelmäßig eintreffenden Makro-Veröffentlichungen. Der Adapter importiert sie ohne externen API-Zugang. Die Ereignisse tragen `event_time`, gegebenenfalls `published_at`, `observed_at`, `available_at` und die Grundlage der Verfügbarkeit. Die Arbeitsfläche zeigt Marker auf der gemeinsamen UTC-Achse und berechnet über einen expliziten Alignment-Node eine deskriptive Renditezusammenfassung zu den Ereignissen. Ein verspätet verfügbarer Datensatz und eine spätere Revision bleiben vor ihrem jeweiligen Cutoff aus der Analyse ausgeschlossen. Marker folgen der gewählten Sicht und geben ihren Zeitbezug an. Speichern, Laden und erneutes Ausführen reproduziert Datenstand, Zeitpolicy und Ergebnis innerhalb dokumentierter Toleranzen. Eine reale Makro- oder Funding-Reihe kann den Vertragstest ergänzen.
 
 ## 6. Spätere Funktionen und Nichtziele
 

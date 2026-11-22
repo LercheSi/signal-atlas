@@ -21,6 +21,8 @@ Qualität ist Bestandteil jedes Arbeitspakets. Import, Zeitverträge, Statistik 
 
 **Integrationsprüfungen:** Raw → Normalized → Manifest → Query → Plugin → Artefakt; API plus PostgreSQL; Workspace speichern und laden; Jobclaim/Lease; Cache-Invaliderung bei Daten- oder Codeänderung. Ein Crash zwischen Dateischreiben und Katalog-Commit darf keinen halben Snapshot lesbar machen.
 
+**Connector-Vertragstests:** Eine gemeinsame Testsuite prüft deklarierte Fähigkeiten, Schemata, Herkunft, Zeitsemantik und Wiederholung für Candle- und Event-Adapter. Unterschiedlich strukturierte Provider-Fixtures mit gleicher fachlicher Semantik ergeben äquivalente kanonische Werte; die jeweilige Herkunft bleibt erhalten. Ein Makroereignis durchläuft Raw → Normalized → Snapshot → Query → Workspace → Export mit Entity-Bezug ohne Instrument oder Venue. Fixtures mit weiteren Quell-IDs und Quote-Währungen decken fest codierte Annahmen im Kern auf. Für Candle-Instrumente werden Venue, Marktart, Base/Quote und Gültigkeitszeitraum geprüft.
+
 **Zeitliche Regressionstests:**
 
 1. Ein Fakt wird erst nach dem Analysezeitpunkt veröffentlicht: er darf nicht erscheinen.
@@ -31,8 +33,10 @@ Qualität ist Bestandteil jedes Arbeitspakets. Import, Zeitverträge, Statistik 
 6. Gleichzeitige, widersprüchliche Revisionen benötigen Tie-Breaker oder werden abgewiesen.
 7. Verändert man ausschließlich Daten nach dem Cutoff, bleiben frühere Features unverändert.
 8. Ein rückwirkend erkanntes Entity-Label ist vor seiner Bekanntheit unsichtbar.
+9. Geänderte Quell- und Instrumenten-Aliase beeinflussen eingefrorene Läufe erst bei einem expliziten Wechsel der Mapping-Version.
+10. Geschätzte Veröffentlichungszeiten bleiben in Query, Workspace und Export als Annahmen gekennzeichnet.
 
-**Frontend-End-to-End:** MVP-Abnahmelauf, Fehlermeldungen, Abbruch, Reload, synchrone Zeitachsen und Schutz gegen verspätete Resultate. Tastaturbedienbarkeit, lesbare Kontraste und sichtbare Zeitzone sind UI-Qualitätsziele.
+**Frontend-End-to-End:** beide MVP-Abnahmeläufe einschließlich Ereignismarkern, Alignment und Cutoff-Prüfung, Fehlermeldungen, Abbruch, Reload, synchrone Zeitachsen und Schutz gegen verspätete Resultate. Tastaturbedienbarkeit, lesbare Kontraste und sichtbare Zeitzone sind UI-Qualitätsziele.
 
 ## 3. Forschungsqualität
 
@@ -62,7 +66,7 @@ Für AP 14 kommen Kosten, Spread, Slippage, Finanzierung, FX-/Stablecoin-Risiko,
 
 AP 02 definiert reale Größenklassen: kleiner Interaktionsausschnitt, repräsentativer Mehrjahresvergleich und großer Gesamtscan. Ein synthetischer Über-RAM-Test prüft Spill/Fehlerverhalten. Jeder Bericht erfasst CPU, RAM, Datenträger, Dateianzahl/-größe, Datenvolumen, Zeilen, Schema, Versionsstände, Parallelität und Cachezustand.
 
-Getrennt messen: Import MB/s und Zeilen/s, Speicherbedarf, Scan/Filter/Aggregation, As-of-Join, Resampling, Lead-Lag, Artefakttransfer und UI-Renderzeit. Kalte und warme Läufe getrennt berichten; p50/p95 nur aus ausreichend wiederholten Läufen ableiten. Ein Einzelwert ist kein Perzentil.
+Candle-Scans, unregelmäßige Ereignisse, zeitliche Joins und Abfragen über viele Assets erhalten eigene Benchmarkprofile. Getrennt messen: Import MB/s und Zeilen/s, Speicherbedarf, Scan/Filter/Aggregation, As-of-Join, Resampling, Lead-Lag, Artefakttransfer und UI-Renderzeit. Kalte und warme Läufe getrennt berichten; p50/p95 nur aus ausreichend wiederholten Läufen ableiten. Ein Einzelwert ist kein Perzentil.
 
 Optimierungsreihenfolge: Queryplan und Filter/Projektion → Dateilayout → vektorisierte/Lazy-Verarbeitung → geeignete Algorithmen → Cache/Voraggregation → native Beschleunigung oder zusätzliche Stores. Chart-Downsampling muss Extremwerte beziehungsweise Datenlücken nach klarer Regel erhalten und darf keine Statistik beeinflussen.
 

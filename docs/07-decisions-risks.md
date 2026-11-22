@@ -4,11 +4,9 @@
 
 ## 1. Herkunft und Vollständigkeit
 
-Grundlage: aktuelle Beauftragung und die über `read_thread` gelesene Referenzkonversation **Cross Exchange Arbitrage**, ID `6afe2003-efd8-83ed-9772-e1d69170f9d1`. Der Abruf lieferte fünf Gesprächsblöcke: Datenarchitektur, Namensvorschlag, Repositorybeschreibung, vollständige Arbeitspakete und Dokumentationsauftrag. Der Dienst meldete keinen weiteren Cursor. Ältere, darin nicht enthaltene Inhalte können daher nicht als geprüft gelten.
+Entwurfsgrundlage sind die Projektanforderungen und Architekturgespräche vom November 2026. Die Dokumentation beschreibt das Zielsystem. Der Status jeder Architekturentscheidung steht im folgenden Register.
 
-Die aktuelle Beauftragung ergänzt explizit Python, React/TypeScript, optionale Rust-/C++-Beschleunigung und den gewünschten technischen Umfang. Die referenzierte Diskussion begründet insbesondere Produktziel, Speicherrollen, vier Zeitstempel, 14 Arbeitspakete und den Verzicht auf autonome Echtgeldtrades in den vier Phasen.
-
-Hier lag bei Erstellung kein Implementierungsrepository mit Quellcode und kein überprüfbarer Datenbestand vor. Es wurden weder bestehende Architektur noch Dateiformate, Hardware, Benchmarks oder Providerverträge als Tatsache abgeleitet. Dieses Paket ist ein technischer Entwurf, keine Codeprüfung. Detaillierte API-, Plugin-, Commit-, Test- und Jobverträge sind redaktionell ausgearbeitete Vorschläge.
+Der reale Datenbestand, die konkreten Providerverträge und die Hardwareleistung sind zu prüfen. Dateiformate, Benchmarkbudgets sowie API-, Plugin-, Commit- und Jobverträge werden bei Inventur, Implementierung und Prototyping validiert.
 
 ## 2. Statusmodell
 
@@ -38,6 +36,9 @@ Hier lag bei Erstellung kein Implementierungsrepository mit Quellcode und kein �
 | D-15 | O | Native Module und zusätzliche Stores | Erst nach reproduzierbarem Profiling entscheiden |
 | D-16 | O | Backtesting-Integrationsziel | AP 14 anhand Zeitmodell, Kosten und Exportvertrag auswählen |
 | D-17 | O | Name/Repository/Markenverfügbarkeit | SignalAtlas ist Arbeitsname; keine Verfügbarkeitsprüfung erfolgt |
+| D-18 | V | Anbieter- und Handelsplatzunabhängigkeit | Binance und Kraken sind Pilotadapter. Der Kern verwendet kanonische Typen, stabile IDs und deklarierte Fähigkeiten |
+| D-19 | O | Heterogener MVP-Demonstrator | Synthetische unregelmäßige Ereignisse als Referenzfall vorgesehen. Eine reale Makro- oder Funding-Reihe ist optional und hängt von Aufwand und Nutzungsrechten ab |
+| D-20 | O/V | Granularität des Connector-Vertrags | Gemeinsame Metadaten und deklarierte Fähigkeiten mit datenartspezifischen Payloads. Die Vertragstests konkretisieren den Umfang |
 
 Kein Eintrag mit Status V oder O wird durch Erwähnung in einem Diagramm zu einer endgültigen Festlegung. Ansprechpartner sind derzeit Rollen, keine erfundenen Personen: Architekturverantwortung, Datenverantwortung, Research-Verantwortung und Betrieb. Ihre tatsächliche Besetzung ist vor der Umsetzung zu dokumentieren.
 
@@ -64,6 +65,7 @@ Bewertungen sind qualitative Planungseinschätzungen ohne empirische Eintrittswa
 | Unvollständiger Raw-Bestand | Ergebnisse nicht reproduzierbar | fehlende Hashreferenzen | unveränderte Originale, Snapshotprüfung, Backup; Daten/Betrieb |
 | Provider-Ausfälle, Limits, wechselnde Formate | Lücken oder Kosten | steigender Aufnahmeverzug/Schemafehler | versionierte Connectoren, Backoff, Quarantäne; Daten |
 | Lizenz- oder Weiterverteilungsproblem | eingeschränkte Veröffentlichung | unklare Nutzungsbedingungen | Quellenblatt, keine automatische Rohdatenpublikation; Projektleitung |
+| Börsenspezifische Annahmen im Plattformkern | Neue Quellen erfordern Kernänderungen | Event-Import verlangt Candle-Felder oder einen Venue | Vertrags- und Provider-Wechseltests; Architektur/Daten |
 | Zu viele Dateien oder zu breite Scans | schlechte Interaktivität | Metadaten-/IO-Zeit dominiert | Partitionbenchmark, Compaction, Projektion; Architektur |
 | Worker-Überlast / RAM-Spitzen | Abstürze, blockierte UI | Queuealter und OOM | Quoten, getrennte Kapazität, Spill/Abbruch; Betrieb |
 | Cache mit falscher Identität | veraltete oder falsche Resultate | trotz Datenänderung gleiche Ergebnisse | vollständiger semantischer Key, Invalidationtests; Architektur |
@@ -77,7 +79,7 @@ Bewertungen sind qualitative Planungseinschätzungen ohne empirische Eintrittswa
 
 Vorschlag: Entscheidungen unter `docs/adr/NNNN-kurztitel.md` ablegen. Ein ADR beschreibt Kontext, Status, Alternativen, Entscheidung, Konsequenzen, Evidenz und Überprüfungsauslöser. Änderungen ersetzen alte ADRs durch Nachfolger statt ihre Historie zu löschen.
 
-Erste ADRs: MVP-Grenzen; Zeit-/Verfügbarkeitspolicies; Snapshot-Commit; Prozess-/Jobmodell; Plugin-Vertrauen; Bibliotheks-/Laufzeitversionen; Lizenz. Das vorliegende Register ersetzt noch keine bestätigten ADRs.
+Erste ADRs: MVP-Grenzen; Anbieter- und Handelsplatzunabhängigkeit; Connector-Fähigkeiten und Datenmodalitäten; Zeit-/Verfügbarkeitspolicies; Snapshot-Commit; Prozess-/Jobmodell; Plugin-Vertrauen; Bibliotheks-/Laufzeitversionen; Lizenz. Das vorliegende Register ersetzt noch keine bestätigten ADRs.
 
 ```text
 Titel / ID:
@@ -93,7 +95,7 @@ Mess-/Testnachweis:
 
 ## 7. Quellen und Pflege
 
-Projektquelle: die oben benannte Referenzkonversation und aktuelle Beauftragung. Externe technische Referenzen wurden zur Erstellung am 22. November 2026 eingesehen:
+Projektgrundlage sind die Anforderungen und Architekturgespräche vom November 2026. Externe technische Referenzen wurden zur Erstellung am 22. November 2026 eingesehen:
 
 - [DuckDB: FROM und As-of-Joins](https://duckdb.org/docs/stable/sql/query_syntax/from) – grundlegende zeitliche Join-Syntax.
 - [Polars: Joins](https://docs.pola.rs/user-guide/transformations/joins/) – Gruppierung und As-of-Verknüpfung.

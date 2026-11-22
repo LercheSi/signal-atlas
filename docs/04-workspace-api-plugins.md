@@ -8,7 +8,7 @@
 
 **Vorschlag:** Die Berechnung bildet einen gerichteten azyklischen Graphen (DAG). Ein Node enthält stabile ID, Node-Typ, Plugin-Version, deklarierte Parameter und Eingangs-/Ausgangsports. Kanten verbinden benannte Ports; Layout, Farben und Zoom sind getrennte Präsentationsdaten.
 
-Beispiel:
+Beispiel für zwei Pilot-Zeitreihen:
 
 ```text
 Binance BTC/USDT ─→ Renditen ─┐
@@ -20,6 +20,18 @@ Kraken BTC/USD ───→ Renditen ─┘
 Ähnliche Renditen können bei unterschiedlichen Quote-Assets verglichen werden; das beseitigt das Quote-Risiko nicht. Ein absoluter Preis-Spread erfordert eine zeitlich korrekte Umrechnung. Ein Lead-Lag-Befund aus Minutencandles belegt keine in Millisekunden ausführbare Arbitrage.
 
 Porttypen umfassen beispielsweise `CandleFrame`, `TimeSeries`, `EventFrame`, `FeatureFrame`, `StatisticalResult` und `ChartSpec`. Zusätzlich zum Strukturtyp werden Zeitbasis, Einheit, Instrumentgruppe, Sortierung, Sampling, Verfügbarkeitspolicy und Qualitätsstatus geprüft. Eine Float-Spalte allein ist kein ausreichender fachlicher Typ.
+
+Zweiter Graph für den MVP-Abnahmelauf:
+
+```text
+Makro-Veröffentlichungen (EventFrame) ─┐
+                                      ├─→ Zeitliches Alignment ─→ Renditezusammenfassung ─→ Chart + Bericht
+OHLCV → Renditen (TimeSeries) ──────────┘
+```
+
+Der Alignment-Node deklariert Richtung, maximales Datenalter, Zeitbasis und Verfügbarkeitspolicy. Marker nennen ihren Zeitbezug und die verwendete Revision. Eine Auswertung späterer Renditen verwendet diese als Ergebnisgrößen; als historische Features sind sie erst nach Ablauf und Verfügbarkeit des Renditefensters zulässig. Die Zusammenfassung weist Stichprobe, überlappende Fenster und Ausschlüsse aus. Weitergehende Event Studies berichten zusätzlich Unsicherheit. Ereignismarker zeigen zeitliche Zusammenhänge.
+
+Datenbrowser und Nodes verwenden Datentyp, fachlichen Bezug, Quelle und Zeitbereich. Analyseplugins deklarieren akzeptierte Eingangsmodalitäten. Für inkompatible Ports ist eine explizite, fachlich zulässige Transformation erforderlich.
 
 ## 2. Planung und Ausführung
 
@@ -56,7 +68,7 @@ Zeitreihen besitzen Autokorrelation und sich überlappende Beobachtungen. Einfac
 
 | Endpoint | Zweck |
 |---|---|
-| `GET /datasets` | paginierter Katalog mit Qualitäts- und Rechtehinweisen |
+| `GET /datasets` | paginierter Katalog mit Filtern für Quelle, Datenart, Entity/Instrument, Zeitraum, Qualität und Verfügbarkeit sowie Rechtehinweisen |
 | `GET /datasets/{id}/snapshots` | verfügbare unveränderliche Stände |
 | `POST /queries` | begrenzte Datenauswahl/Preview oder asynchroner Query-Job |
 | `GET /plugins` | freigegebene Typen, Parameter- und Portschemata |
@@ -93,7 +105,7 @@ Pagination benötigt stabile Sortierung und Cursor; Zeitfilter sind `[start,end)
 
 Zwei Vertragstypen:
 
-- **Connector:** deklariert Datenarten, Quellrechte, Authentifizierungsbedarf, Rate-Limits, Cursor-/Replay-Fähigkeit, Zeitsemantik und Normalizer-Schema. Historischer Abruf und Live-Aufnahme dürfen getrennte Fähigkeiten sein.
+- **Connector:** deklariert Datenarten, Quellrechte, Authentifizierungsbedarf, Rate-Limits, Cursor-/Replay-Fähigkeit, Zeitsemantik und Normalizer-Schema. Die Metadaten enthalten `data_kinds`, Schemaversionen sowie Zeit-, Revisions- und Abruffähigkeiten gemäß [Architektur](02-architecture.md). Historischer Abruf und Live-Aufnahme sind separat deklarierbar.
 - **Analyse:** deklariert Plugin-ID, API-Version, Implementierungsversion, Port- und Parameterschemata, Einheiten-/Zeitbedingungen, deterministisches Verhalten, benötigte Ressourcen und Ausgabetypen.
 
 Schematische Analyseschnittstelle:
@@ -106,6 +118,8 @@ class AnalysisPlugin:
 ```
 
 `context` stellt aufgelöste Snapshots, Seed, Zeitpolicy, Ressourcenbudget, Logger und Abbruchsignal bereit. Ein Analyseplugin darf diese Inputs nicht durch unversionierte spontane Netzwerkabrufe ergänzen. Ein Connector besitzt einen gesonderten Abrufkontext mit Secret-Referenzen; Secrets werden nie im Workspace serialisiert.
+
+Vertragskonforme Connectoren und Analyseplugins werden über die Registry eingebunden. Die Ausführung verwendet die deklarierten Schnittstellen und benötigt dafür keine providerspezifischen Verzweigungen im zentralen Executor.
 
 Parameter verwenden deklarative Schemas mit Defaults, Grenzen, Enum-Werten und verständlichen Labels. Dadurch kann die UI Standardformulare für neue Methoden erzeugen. Neue Spezialvisualisierungen können zusätzliche Frontend-Arbeit benötigen; „Plugin“ garantiert keine beliebige UI-Erweiterung ohne Codeänderung.
 
