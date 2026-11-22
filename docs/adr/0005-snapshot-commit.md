@@ -1,6 +1,6 @@
 # ADR-0005 · Unveränderliche Snapshots mit Manifest-Commit
 
-Status: **proposed** · Datum: 22. November 2026 · Verantwortliche Rolle: Architektur / Betrieb
+Status: **accepted** · Datum: 22. November 2026 · Verantwortliche Rolle: Architektur / Betrieb
 
 ## Kontext
 
@@ -20,7 +20,7 @@ Gegen In-place-Dateien und vollständige Massendatenhaltung in PostgreSQL. Ein F
 
 ## Vertragsfreigabe
 
-Freigabekriterium für D-12 ist die dokumentierte Commit-Reihenfolge mit vollständiger Lesersicht und Verhalten an den Fehlergrenzen. Die Vertragsfreigabe ist vor formaler AP01-Abnahme und AP03-Persistenzcode erforderlich. Crash-/Wiederholungs- und Restore-Nachweise folgen erst in AP03/04 vor M1. Der Status bleibt `proposed`; diese Überarbeitung enthält keine Freigabe.
+Freigabekriterium für D-12 ist die dokumentierte Commit-Reihenfolge mit vollständiger Lesersicht und Verhalten an den Fehlergrenzen. Die Vertragsfreigabe ist vor formaler AP01-Abnahme und AP03-Persistenzcode erforderlich. Crash-/Wiederholungs- und Restore-Nachweise folgen erst in AP03/04 vor M1. Simon Lerche hat den Vertrag mit der AP01-Abnahme am 22. November 2026 freigegeben.
 
 ## Nachweis und Überprüfung
 

@@ -1,6 +1,8 @@
 # ADR-0006 · Geprüfte lokale Plugins im MVP
 
-Status: **proposed** · Datum: 22. November 2026 · Verantwortliche Rolle: Architektur / Betrieb
+Status: **accepted** · Datum: 22. November 2026 · Verantwortliche Rolle: Architektur / Betrieb
+
+Annahme durch Simon Lerche mit der AP01-Abnahme am 22. November 2026.
 
 ## Kontext
 

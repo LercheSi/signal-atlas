@@ -4,9 +4,9 @@
 
 ## 1. Status und Zuständigkeiten
 
-Stand: 22. November 2026. Dieser Vertrag konkretisiert AP01; er beschreibt keine implementierten Funktionen. Lokalbetrieb für eine Person wurde im Projektgespräch bestätigt. Die folgenden technischen Festlegungen sind der zur Prüfung vorgelegte AP01-Entwurf; die ADRs kennzeichnen sie als `proposed`.
+Stand: 22. November 2026. Dieser Vertrag konkretisiert AP01; er beschreibt keine implementierten Funktionen. Lokalbetrieb für eine Person wurde im Projektgespräch bestätigt. Simon Lerche hat AP01 am 22. November 2026 abgenommen. Die Abnahme umfasst ADR-0002 bis ADR-0006 und D-08.
 
-Die fünf Rollen sind in Abschnitt 7 namentlich besetzt. AP01 ist **zur Abnahme vorbereitet**. Vor der formalen Abnahme stehen die technische Annahme der vorgeschlagenen ADRs und die ausdrückliche Entscheidung über D-08 aus.
+Die fünf Rollen sind in Abschnitt 7 namentlich besetzt. Für M2 sind F-05 und die deskriptive Event-Renditezusammenfassung mit Cutoff-Prüfung aus F-12 verbindlich. Weitergehende Statistik ist für M2 optional.
 
 ## 2. Research-Ablauf A: OHLCV-Vergleich und Lead-Lag
 
@@ -118,7 +118,7 @@ Ein reproduzierbarer Bericht bindet Scanversion, Konfiguration, Zeitpunkt und Da
 
 Simon Lerche übernimmt im Einzelbetrieb die fünf Rollen **Produkt**, **Architektur**, **Daten**, **Research** und **Betrieb**. Er kann Umsetzung und Review pro Arbeitspaket getrennt vergeben. Die Freigabe von Entscheidungen und die formale Abnahme bleiben bei ihm.
 
-Die Tabelle deckt D-01 bis D-20 sowie das Plugin-Vertrauen A-06 ab. **Vertragsfreigabe** bedeutet eine dokumentierte Entscheidung durch die zuständige Rolle; **Implementierungsnachweis** bedeutet erst den später ausgeführten Test oder Benchmark. Vorschläge werden durch diesen Review nicht freigegeben. Die technische Freigabe der vorgeschlagenen AP01-ADRs und die Entscheidung über D-08 sind Voraussetzungen der formalen AP01-Abnahme; spätere Softwaretests sind keine vorgezogenen AP01-Gates.
+Die Tabelle deckt D-01 bis D-20 sowie das Plugin-Vertrauen A-06 ab. **Vertragsfreigabe** bedeutet eine dokumentierte Entscheidung durch die zuständige Rolle; **Implementierungsnachweis** bedeutet erst den später ausgeführten Test oder Benchmark. Die AP01-Abnahme bestätigt die dokumentierten Verträge. Die Implementierungsnachweise folgen in den jeweiligen Arbeitspaketen.
 
 | Entscheidung / aktueller Status | Verantwortliche Rolle | Überprüfbares Entscheidungskriterium und spätester Entscheidungspunkt | Späterer Implementierungsnachweis |
 |---|---|---|---|
@@ -126,14 +126,14 @@ Die Tabelle deckt D-01 bis D-20 sowie das Plugin-Vertrauen A-06 ab. **Vertragsfr
 | D-02/D-03 K · Speicherrollen | Architektur | Bestehende Parquet-/DuckDB-/Polars- und PostgreSQL-Rollen sind Kontext; Abweichungen vor Umsetzung gesondert entscheiden | Lastprofil AP04, Persistenz AP03/04 |
 | D-04 O/V · Jobrunner | Architektur/Betrieb | Runner anhand Claim-, Lease-, Retry- und Abbruchkonzept auswählen; vor produktiver Jobintegration in AP04 | Recovery und Idempotenz AP04 vor M1 |
 | D-05 K/V; D-10 O · Laufzeiten, Frameworks, Bibliotheken | Architektur | Kompatible unterstützte Versionen und Lizenzen dokumentieren; Backend vor AP03-Code, UI vor AP05-Code | Vertikaler Prototyp und Kompatibilitätsprüfungen AP03–05 |
-| D-07 K/V · Zeit-/Verfügbarkeitspolicy, ADR-0004 proposed | Daten/Research | Perspektiven, Erstverfügbarkeitsanker, Revisionen, Start-/Endkurs, Unknown/Estimated und Cutoffs anhand der Referenzfälle widerspruchsfrei freigeben; vor formaler AP01-Abnahme, spätestens vor AP03-Vertragsimplementierung | Zeit-/Revisions- und Fensterregressionen AP03/04/08 |
-| D-08 V · Statistikumfang M2 | Research/Produkt | Mindestumfang F-05 plus deskriptive Event-Zusammenfassung/Cutoff-Prüfung und Ausschluss weitergehender Statistik als M2-Blocker ausdrücklich entscheiden; vor formaler AP01-Abnahme und AP08-Planung | Beide MVP-Abnahmeläufe AP06–08 vor M2 |
+| D-07 B · Zeit-/Verfügbarkeitspolicy, ADR-0004 accepted | Daten/Research | Zeitperspektiven, Erstverfügbarkeitsanker, Revisionen und Cutoffs gemäß Referenzfällen freigegeben. | Zeit-/Revisions- und Fensterregressionen AP03/04/08 |
+| D-08 B · Statistikumfang M2 | Research/Produkt | F-05 plus deskriptive Event-Zusammenfassung und Cutoff-Prüfung aus F-12 beschlossen. | Beide MVP-Abnahmeläufe AP06–08 vor M2 |
 | D-09 O · Lizenz/Governance/Contribution/Security | Produkt | Lizenzwahl, Beitragsregeln und Security-Verantwortung anhand gewünschter Nutzung und Abhängigkeiten dokumentieren; vor öffentlicher Codefreigabe | Einhaltung und Kontakt-/Prozessprüfung bei Veröffentlichung |
 | D-11 O · Backup/Retention/Budgets | Betrieb | AP02-Volumen und Änderungsrate in Backupplan, Speicherbudget, RPO/RTO und Retention überführen; vor Betriebsfreigabe M1 | Vollständiger Restore vor M1 |
-| D-12 V · Snapshot-Commit, ADR-0005 proposed | Architektur/Betrieb | Dauerhaftigkeit vor Commit, vollständige Validierung, koordinierte Veröffentlichungs-/Aufräumrechte, Lesersicht und Recovery gemäß ADR-0005 freigeben; vor formaler AP01-Abnahme, spätestens vor AP03-Persistenzcode | Crashpunkte, Wiederholung und Hash-/Restoreprüfung AP03/04 vor M1 |
+| D-12 B · Snapshot-Commit, ADR-0005 accepted | Architektur/Betrieb | Commit-Reihenfolge, Lesersicht sowie Veröffentlichungs- und Aufräumrechte gemäß ADR-0005 freigegeben. | Crashpunkte, Wiederholung und Hash-/Restoreprüfung AP03/04 vor M1 |
 | D-13 O · Quellenverfügbarkeit | Daten | Pro Quelle belegte Vintages oder ausdrücklich gekennzeichnete Annahmen und Rechte im Quellenblatt entscheiden; vor Importfreigabe bzw. strikter Realanalyse | Quellfixtures, Cutoffs und Rechteprüfung AP02–04; ADR-0004-Freigabe ersetzt keine Quellbelege |
-| D-18 V; D-20 O/V · Kern-/Connectorgrenzen, ADR-0002/0003 proposed | Architektur/Daten | Zwei Modalitäten, stabile Identitäten, Fähigkeiten und Registrierung ohne Providerzweige im Kern anhand F-11 freigeben; vor formaler AP01-Abnahme und AP03-Code | Provider-Wechsel-, Schema- und Connector-Vertragstests AP03/04 |
-| A-06 Annahme · Plugin-Vertrauen, ADR-0006 proposed | Architektur/Betrieb | Allowlist-Tupel aus ID/Version/Code-Nachweis, erneute Prüfung bei Änderungen, Scheitern bei fehlenden Altversionen, Secret-Grenzen und fehlende Fremdcodeisolation ausdrücklich freigeben; vor formaler AP01-Abnahme und Pluginladung AP04 | Registry-, Versions-, Secret- und Portprüfungen AP04/06 |
+| D-18/D-20 B · Kern-/Connectorgrenzen, ADR-0002/0003 accepted | Architektur/Daten | Identitäten, Fähigkeiten, Modalitäten und Registrierung gemäß F-11 freigegeben. | Provider-Wechsel-, Schema- und Connector-Vertragstests AP03/04 |
+| A-06 · Plugin-Vertrauensmodell, ADR-0006 accepted | Architektur/Betrieb | Allowlist, Versions- und Code-Nachweis sowie Secret-Grenzen freigegeben. | Registry-, Versions-, Secret- und Portprüfungen AP04/06 |
 | D-06 K/O; D-15 O · Live/Stores/native Module | Architektur | Last-/Recovery-/Profilingbefund und Betriebsaufwand rechtfertigen die jeweilige Auswahl; vor entsprechendem Ausbau, kein MVP-Gate | Benchmark und Recovery/Referenzvergleich beim Ausbau |
 | D-16 O · Backtesting-Ziel | Research | Zeit-, Kosten- und Exportvertrag mit gewähltem Integrationsziel abgleichen; vor Integration AP14 | Punkt-in-Zeit-Referenzhypothese AP14 |
 | D-17 O · Name/Marke | Produkt | Verfügbarkeit gesondert prüfen und Arbeitsnamen bestätigen/ersetzen; vor öffentlicher Namensfestlegung | Dokumentierter Prüfbeleg, keine ungeprüfte Verfügbarkeitsaussage |
@@ -144,4 +144,4 @@ Die Wahl einzelner Bibliotheken oder einer Softwarelizenz wird durch AP01 nicht 
 
 Am 22. November 2026 geprüft: lokale Markdown-Dateiverweise, Abschnittsanker, geschlossene Codeblöcke, JSON-Beispiele, eindeutige ADR-Nummern/-Status, Abdeckung F-01 bis F-12 in der Übergabematrix und `git diff --check`. README dient als Einstieg zum Vertrag und zum ADR-Register.
 
-Das Repository enthält ausschließlich Dokumentation; Test-, Formatierungs-, Lint- und Typprüfungsbefehle für Anwendungscode sind noch nicht eingerichtet. Der Event-Referenzfall wurde zusätzlich rechnerisch auf Anker/Ende, Baseline-Ausschluss, Logrendite und Endkurs-Cutoff geprüft. Dies ist eine Prüfung der dokumentierten Erwartungswerte, kein Anwendungstest. Entsprechend wurden keine Softwaretests oder Benchmarks ausgeführt. Die technische ADR-Annahme und die Entscheidung über D-08 bleiben für AP01 offen; spätere Implementierungsnachweise folgen in den benannten Paketen.
+Das Repository enthält ausschließlich Dokumentation; Test-, Formatierungs-, Lint- und Typprüfungsbefehle für Anwendungscode sind noch nicht eingerichtet. Der Event-Referenzfall wurde zusätzlich rechnerisch auf Anker/Ende, Baseline-Ausschluss, Logrendite und Endkurs-Cutoff geprüft. Dies ist eine Prüfung der dokumentierten Erwartungswerte, kein Anwendungstest. Entsprechend wurden keine Softwaretests oder Benchmarks ausgeführt. Die Implementierungsnachweise folgen in den benannten Paketen.

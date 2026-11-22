@@ -25,7 +25,7 @@ Lieferumfang: bestätigter Scope, ADRs zu Anbieter- und Handelsplatzunabhängigk
 
 **Abnahme:** Der börsenübergreifende OHLCV-Vergleich und der heterogene OHLCV-/Event-Ablauf sind mit Eingaben, Ergebnissen und Zeitannahmen beschrieben; offene Entscheidungen besitzen Owner/Rolle und Entscheidungskriterium; kein autonomes Trading im Scope. Verantwortliche Personen müssen noch benannt werden.
 
-**Arbeitsstand:** [AP01-Vertrag](08-ap01-contract.md) und sechs ADRs liegen vor. Lokalbetrieb ist bestätigt; die Rollen sind besetzt. Die technische ADR-Annahme und die ausdrückliche Entscheidung über D-08 stehen aus. Vertragsfreigabe erfolgt vor formaler AP01-Abnahme; Software-/Recovery-Nachweise folgen erst in den Umsetzungspaketen. AP01 ist zur Abnahme vorbereitet, noch nicht abgenommen.
+**Arbeitsstand:** Simon Lerche hat AP01 am 22. November 2026 abgenommen. Die technischen ADRs und D-08 sind freigegeben. Der [AP01-Vertrag](08-ap01-contract.md) enthält die Übergabe an AP02. Software- und Recovery-Nachweise folgen in den Umsetzungspaketen.
 
 ### AP 02 · Dateninventur und Qualitätsanalyse
 
@@ -77,7 +77,7 @@ Lieferumfang: Zeitreihencharts, Heatmaps, synchroner Zoom/Cursor, Ereignismarker
 
 **Ziel:** versionierte statistische Analyseplugins. **Abhängigkeit:** Daten-/Zeitvertrag AP 03, Worker AP 04.
 
-Lieferumfang: MVP-Verfahren gemäß Scope einschließlich deskriptiver Renditezusammenfassung zu Ereignissen und Cutoff-Prüfung; danach Stationarität/Cointegration, Regression/Faktoren, Anomalien/Strukturbrüche und Signifikanzverfahren. **Abnahme:** synthetische Referenzen, bekanntes Lag, Nullfälle und Fehlereingaben geprüft; Ergebnisse tragen Methode, Parameter, Stichprobe, Unsicherheit und Lineage. Erweiterter Releaseumfang bleibt D-08.
+Lieferumfang: MVP-Verfahren gemäß Scope einschließlich deskriptiver Renditezusammenfassung zu Ereignissen und Cutoff-Prüfung; danach Stationarität/Cointegration, Regression/Faktoren, Anomalien/Strukturbrüche und Signifikanzverfahren. **Abnahme:** synthetische Referenzen, bekanntes Lag, Nullfälle und Fehlereingaben geprüft; Ergebnisse tragen Methode, Parameter, Stichprobe, Unsicherheit und Lineage. Der Mindestumfang von M2 ist in D-08 festgelegt.
 
 **M2:** Beide [MVP-Abnahmeläufe](01-product-scope.md) sind erfolgreich. Der Workspace unterstützt den Vergleich zweier OHLCV-Reihen sowie einen OHLCV-/Event-Graphen mit explizitem Alignment, Verfügbarkeitsprüfung und gemeinsamer Darstellung. Beide Arbeitsflächen lassen sich speichern, laden und mit denselben Eingaben reproduzierbar ausführen. Der Event-Referenzfall prüft das an Erstverfügbarkeit gebundene Fünf-Minuten-Fenster, den Ausschluss älterer Baselines, verzögerte Endkursverfügbarkeit und revisionsstabile Anker gemäß AP01-Vertrag.
 

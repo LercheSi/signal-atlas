@@ -26,20 +26,20 @@ Der reale Datenbestand, die konkreten Providerverträge und die Hardwareleistung
 | D-04 | O/V | Konkreter Jobrunner; Vorschlag DB-Queue mit Leases | Restart, Claim, Abbruch, Fairness und Idempotenz prototypisieren |
 | D-05 | K/V | Python, React/TypeScript; modularer Kern | Stack vorgegeben; Frameworks und Versionspins offen |
 | D-06 | K/O | Live modular; NATS/TimescaleDB/ClickHouse optional | Auswahl erst nach Last-/Recoverynachweis |
-| D-07 | K/V | Vier Zeitstempel; zwei Replayperspektiven | ADR-0004 proposed; Vertragsfreigabe vor AP01-Abnahme, Zeitregressionen erst AP03/04/08 |
-| D-08 | V | F-05 plus deskriptive Event-Zusammenfassung und Cutoff-Prüfung für M2 | AP01-Vorschlag: ausdrückliche Scopeentscheidung vor AP01-Abnahme; Nachweis beider Abläufe vor M2 |
+| D-07 | B | Vier Zeitstempel; zwei Replayperspektiven | ADR-0004 angenommen; Zeitregressionen in AP03/04/08 |
+| D-08 | B | F-05 plus deskriptive Event-Zusammenfassung und Cutoff-Prüfung für M2 | Mit AP01 beschlossen; Nachweis beider Abläufe vor M2 |
 | D-09 | O | Lizenz, Governance, Contribution und Security-Kontakt | Vor öffentlicher Veröffentlichung klären |
 | D-10 | O | Chart-/Canvasbibliothek, Python-Webframework | Lizenz, Wartbarkeit, große Graphen/Daten, Accessibility testen |
 | D-11 | O | Backup, RPO/RTO, Retention und Speicherbudget | AP 02 ermittelt Größe; Restore vor M1 nachweisen |
-| D-12 | V | Unveränderliche Snapshots plus Manifest-Commit | ADR-0005 proposed; Dauerhaftigkeit/Validierung vor Commit, Schutz vor parallelem Aufräumen; Vertragsfreigabe vor AP01-Abnahme, Crash-/Restore-Nachweis AP03/04 |
+| D-12 | B | Unveränderliche Snapshots plus Manifest-Commit | ADR-0005 angenommen; Crash-/Restore-Nachweis AP03/04 |
 | D-13 | O | Verfügbarkeitsannahmen je historischer Quelle | Ohne belegte Vintages kein striktes Markt-Replay behaupten |
 | D-14 | B | Lokaler Einzelbetrieb auf Loopback | ADR-0001; Remote-/Mehrnutzerbetrieb erfordert neuen Entwurf |
 | D-15 | O | Native Module und zusätzliche Stores | Erst nach reproduzierbarem Profiling entscheiden |
 | D-16 | O | Backtesting-Integrationsziel | AP 14 anhand Zeitmodell, Kosten und Exportvertrag auswählen |
 | D-17 | O | Name/Repository/Markenverfügbarkeit | SignalAtlas ist Arbeitsname; keine Verfügbarkeitsprüfung erfolgt |
-| D-18 | V | Anbieter- und Handelsplatzunabhängigkeit | Binance und Kraken sind Pilotadapter. Der Kern verwendet kanonische Typen, stabile IDs und deklarierte Fähigkeiten |
+| D-18 | B | Anbieter- und Handelsplatzunabhängigkeit | Binance und Kraken sind Pilotadapter. Der Kern verwendet kanonische Typen, stabile IDs und deklarierte Fähigkeiten |
 | D-19 | B | Synthetische Veröffentlichungsereignisse als zweiter Referenzdatentyp | Geänderte MVP-Anforderungen / ADR-0001; reale Makro-/Funding-Reihe optional |
-| D-20 | O/V | Granularität des Connector-Vertrags | Gemeinsame Metadaten und deklarierte Fähigkeiten mit datenartspezifischen Payloads. Die Vertragstests konkretisieren den Umfang |
+| D-20 | B | Granularität des Connector-Vertrags | Gemeinsame Metadaten und deklarierte Fähigkeiten mit datenartspezifischen Payloads. Die Vertragstests konkretisieren den Umfang |
 
 Kein Eintrag mit Status V oder O wird durch Erwähnung in einem Diagramm zu einer endgültigen Festlegung. Der [AP01-Vertrag, Abschnitt 7](08-ap01-contract.md#7-rollenbesetzung-und-entscheidungspunkte) nennt die Person, die die Rollen übernimmt, und ordnet offenen Entscheidungen Rollen, Kriterien und Entscheidungspunkte zu.
 
@@ -52,7 +52,7 @@ Kein Eintrag mit Status V oder O wird durch Erwähnung in einem Diagramm zu eine
 | A-03 | Einzelner Rechner reicht für erstes Profil | AP 04 misst RAM/Scan/Join; bei Nichterfüllung Datenlayout/Scope anpassen |
 | A-04 | Historische Verfügbarkeit ist teilweise unbekannt | Quellenblatt und Zeitpolicy; Ergebnisse entsprechend kennzeichnen |
 | A-05 | Datenrechte erlauben lokale Forschung | Je Quelle prüfen; Öffentlichkeit/Weiterverteilung separat bewerten |
-| A-06 | Fachliche Plugins werden anfangs geprüft installiert | ADR-0006 proposed bindet Freigabe an ID, Implementierungsversion und unveränderlichen Code-/Paketnachweis; Änderungen erneut prüfen, fehlende Altversionen ohne Fallback ablehnen. Fremdcodebetrieb braucht Isolation |
+| A-06 | Fachliche Plugins werden anfangs geprüft installiert | ADR-0006 bindet Freigabe an ID, Implementierungsversion und unveränderlichen Code-/Paketnachweis; Änderungen erneut prüfen, fehlende Altversionen ohne Fallback ablehnen. Fremdcodebetrieb braucht Isolation |
 
 ## 5. Risikoregister
 
@@ -112,10 +112,10 @@ Pflegeanlässe: veränderte Zeitsemantik, neue Datenquelle, neue Plugin-API, öf
 | ADR | Status | Bezug |
 |---|---|---|
 | [0001 · MVP und Lokalbetrieb](adr/0001-mvp-lokalbetrieb.md) | accepted | D-01, D-14, D-19; expliziter Produkt-/Betriebsrahmen |
-| [0002 · Quellenunabhängigkeit](adr/0002-quellenunabhaengigkeit.md) | proposed | D-18; getrennte fachliche Identitäten |
-| [0003 · Connector und Modalitäten](adr/0003-connector-modalitaeten.md) | proposed | D-20; gemeinsame Metadaten, typspezifische Payloads |
-| [0004 · Zeit und Verfügbarkeit](adr/0004-zeit-verfuegbarkeit.md) | proposed | D-07, D-13; Replay, Revisionen, Alignment |
-| [0005 · Snapshot-Commit](adr/0005-snapshot-commit.md) | proposed | D-12; vollständige atomar sichtbare Datenstände |
-| [0006 · Plugin-Vertrauen](adr/0006-plugin-vertrauen.md) | proposed | A-06; geprüfte lokale Erweiterungen |
+| [0002 · Quellenunabhängigkeit](adr/0002-quellenunabhaengigkeit.md) | accepted | D-18; getrennte fachliche Identitäten |
+| [0003 · Connector und Modalitäten](adr/0003-connector-modalitaeten.md) | accepted | D-20; gemeinsame Metadaten, typspezifische Payloads |
+| [0004 · Zeit und Verfügbarkeit](adr/0004-zeit-verfuegbarkeit.md) | accepted | D-07, D-13; Replay, Revisionen, Alignment |
+| [0005 · Snapshot-Commit](adr/0005-snapshot-commit.md) | accepted | D-12; vollständige atomar sichtbare Datenstände |
+| [0006 · Plugin-Vertrauen](adr/0006-plugin-vertrauen.md) | accepted | A-06; geprüfte lokale Erweiterungen |
 
-Jobrunner, Laufzeit-/Bibliotheksversionen und Lizenz bleiben mit den Gates im AP01-Vertrag offen. AP01 ist zur Abnahme vorbereitet: die technische ADR-Annahme und die ausdrückliche Entscheidung über D-08 stehen aus. Vertragsfreigaben und spätere Implementierungsnachweise sind in Abschnitt 7 des AP01-Vertrags getrennt. Die Dokumente ersetzen keine Software-, Datenrechte- oder Performance-Nachweise.
+Jobrunner, Laufzeit-/Bibliotheksversionen und Lizenz bleiben mit den Gates im AP01-Vertrag offen. AP01 wurde am 22. November 2026 einschließlich ADR-0002 bis ADR-0006 und D-08 abgenommen. Vertragsfreigaben und spätere Implementierungsnachweise sind in Abschnitt 7 des AP01-Vertrags getrennt. Die Dokumente ersetzen keine Software-, Datenrechte- oder Performance-Nachweise.

@@ -1,6 +1,6 @@
 # ADR-0004 · Verfügbarkeit und fachliche Zeit trennen
 
-Status: **proposed** · Datum: 22. November 2026 · Verantwortliche Rolle: Daten / Research
+Status: **accepted** · Datum: 22. November 2026 · Verantwortliche Rolle: Daten / Research
 
 ## Kontext
 
@@ -18,7 +18,7 @@ Gegen pauschale Verfügbarkeit ab Ereigniszeit. Zusätzliche Metadaten begrenzen
 
 ## Vertragsfreigabe
 
-Freigabekriterium für D-07 ist der widerspruchsfreie Zeitvertrag einschließlich des an Erstverfügbarkeit gebundenen Ereignisfensters und seiner Referenzfälle. Die Freigabe ist vor formaler AP01-Abnahme und AP03-Vertragsimplementierung erforderlich; quellenspezifische Verfügbarkeitsbelege D-13 folgen separat vor strikter Realanalyse. Der Status bleibt `proposed`; diese Überarbeitung enthält keine Freigabe.
+Freigabekriterium für D-07 ist der widerspruchsfreie Zeitvertrag einschließlich des an Erstverfügbarkeit gebundenen Ereignisfensters und seiner Referenzfälle. Die Freigabe ist vor formaler AP01-Abnahme und AP03-Vertragsimplementierung erforderlich; quellenspezifische Verfügbarkeitsbelege D-13 folgen separat vor strikter Realanalyse. Simon Lerche hat den Vertrag mit der AP01-Abnahme am 22. November 2026 freigegeben.
 
 ## Nachweis und Überprüfung
 

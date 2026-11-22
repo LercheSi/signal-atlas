@@ -41,7 +41,7 @@ Der Workspace soll Exploration erleichtern, zugleich aber die Grenze zwischen ex
 
 Die unterstützten OHLCV-Formate und Instrumenttypen werden in AP 02 ermittelt. Das kanonische Event-Schema und der synthetische Adapter gehören zum Referenzumfang. Die produktive Anbindung weiterer Anbieter folgt in AP 09.
 
-AP 08 hat einen größeren Zielumfang als F-05: Stationarität, Cointegration, Regression, Faktoren, Anomalien und Strukturbrüche sind geplante Module. **AP01-Vorschlag D-08:** M2 umfasst F-05 und die deskriptive Event-Renditezusammenfassung mit Cutoff-Prüfung aus F-12. Weitere Verfahren blockieren M2 nicht und erhalten getrennte Issues.
+AP 08 hat einen größeren Zielumfang als F-05: Stationarität, Cointegration, Regression, Faktoren, Anomalien und Strukturbrüche sind geplante Module. **Beschluss D-08:** M2 umfasst F-05 und die deskriptive Event-Renditezusammenfassung mit Cutoff-Prüfung aus F-12. Weitere Verfahren blockieren M2 nicht und erhalten getrennte Issues.
 
 ## 4. Nichtfunktionale Anforderungen
 
@@ -71,4 +71,4 @@ Nicht Teil der ersten vier Phasen: autonome Echtgeldorders, Verwahrung von Verm�
 
 ## 7. AP01-Konkretisierung
 
-Der [AP01-Vertrag](08-ap01-contract.md) konkretisiert beide Research-Abläufe, Schnittstellen, Modulgrenzen, numerische Toleranzen und die Übergabe. Technische ADRs sind Vorschläge zur Abnahme. Softwaretests und Benchmarks werden erst in den nachfolgenden Arbeitspaketen ausgeführt.
+Der [AP01-Vertrag](08-ap01-contract.md) konkretisiert beide Research-Abläufe, Schnittstellen, Modulgrenzen, numerische Toleranzen und die Übergabe. Die technischen ADRs wurden mit AP01 angenommen. Softwaretests und Benchmarks werden erst in den nachfolgenden Arbeitspaketen ausgeführt.

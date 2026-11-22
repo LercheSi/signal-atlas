@@ -1,6 +1,8 @@
 # ADR-0003 · Connectoren mit versionierten Modalitäten
 
-Status: **proposed** · Datum: 22. November 2026 · Verantwortliche Rolle: Architektur / Daten
+Status: **accepted** · Datum: 22. November 2026 · Verantwortliche Rolle: Architektur / Daten
+
+Annahme durch Simon Lerche mit der AP01-Abnahme am 22. November 2026.
 
 ## Kontext
 
