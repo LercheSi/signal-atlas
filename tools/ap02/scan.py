@@ -45,9 +45,13 @@ def emit(stream: TextIO, record: Json) -> None:
 
 
 def canonical_decimal(value: Any) -> str:
-    """Serialize an exact decimal without context-dependent rounding."""
-    text = format(value, "f")
-    return text.rstrip("0").rstrip(".") if "." in text else text
+    """Serialize exact finite decimal values without rounding or exponent expansion."""
+    if value == 0:
+        return "0"
+    sign, digits, exponent = value.as_tuple()
+    text = "".join(str(digit) for digit in digits)
+    trimmed = text.rstrip("0")
+    return f"{'-' if sign else ''}{trimmed}e{int(exponent) + len(text) - len(trimmed)}"
 
 
 def classify(relative: str, source: Json) -> str:
@@ -114,6 +118,7 @@ class Analyzer:
         rows = 0
         parsed = 0
         initial_counts = self.counts.copy()
+        time_units: Counter[str] = Counter()
         last_end: int | None = None
         member_status = "readable"
         first: int | None = None
@@ -133,6 +138,7 @@ class Analyzer:
                     self.finding("PARSE_ERROR", location=location, error=str(error))
                     continue
                 parsed += 1
+                time_units[candle.source_time_unit] += 1
                 identity = candle.instrument, candle.interval
                 last_end = candle.end_us if last_end is None else max(last_end, candle.end_us)
                 first = candle.start_us if first is None else min(first, candle.start_us)
@@ -192,11 +198,16 @@ class Analyzer:
                     "source": source,
                     "identity": identity,
                     "availability": "unknown",
+                    "source_timestamp_units": dict(time_units),
+                    "time_basis": "UTC; candle open; exclusive end",
+                    "price_unit": "quote_asset",
+                    "volume_unit": "base_asset",
                     "quote": "unknown",
                 },
             )
         if identity and first is not None and last is not None:
-            self.formats[f"{source}:{'12' if source == 'binance' else '7'}-column"] += 1
+            for unit in time_units:
+                self.formats[f"{source}:{'12' if source == 'binance' else '7'}-column:{unit}"] += 1
             self.database.execute(
                 "INSERT INTO coverage VALUES(?,?,?,?,?,?)",
                 (source, *identity, first, last, json.dumps(reference)),
@@ -268,6 +279,19 @@ class Analyzer:
             start, end, common_count = common
             if not common_count:
                 continue
+            small_end = self.database.execute(
+                "SELECT MAX(start) FROM ("
+                "SELECT start FROM observations WHERE source='binance' AND instrument=? AND interval=? AND start<=? "
+                "INTERSECT SELECT start FROM observations WHERE source='kraken' AND instrument=? AND interval=? AND start<=?)",
+                (
+                    mapping["binance"],
+                    interval,
+                    start + 7 * 86400 * 1_000_000,
+                    mapping["kraken"],
+                    interval,
+                    start + 7 * 86400 * 1_000_000,
+                ),
+            ).fetchone()[0]
             # Windows are coverage candidates; reported gaps/conflicts remain binding exclusions.
             results.append(
                 {
@@ -275,7 +299,7 @@ class Analyzer:
                     "common_timestamp_count": common_count,
                     "start_us": start,
                     "last_start_us": end,
-                    "small_last_start_us": min(end, start + 7 * 86400 * 1_000_000),
+                    "small_last_start_us": small_end,
                     "multiyear": end - start >= 2 * 365 * 86400 * 1_000_000,
                     "references": references,
                     "quality": "see_findings",
@@ -585,6 +609,8 @@ def inspect_original(
         parts = sorted(path.parent.glob(prefix + ".part[0-9][0-9]"))
         if [int(part.suffix[5:]) for part in parts] != list(range(len(parts))):
             raise ValueError("split archive part missing")
+        if any(not stat.S_ISREG(part.lstat().st_mode) for part in parts):
+            raise ValueError("split archive contains symlink or nonregular part")
         hashes = [
             {"path": part.relative_to(root).as_posix(), "sha256": digest(part)} for part in parts
         ]

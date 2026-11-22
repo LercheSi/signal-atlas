@@ -107,6 +107,8 @@ class InventoryTests(unittest.TestCase):
             self.assertIn(code, codes)
         other = run(self.config)
         self.assertEqual(findings, self.records(other, "findings.jsonl"))
+        for name in ("files.jsonl", "members.jsonl", "verification.jsonl"):
+            self.assertEqual(self.records(output, name), self.records(other, name))
         for record in self.records(output, "files.jsonl"):
             self.assertTrue(record["unchanged"])
 
@@ -162,8 +164,13 @@ class InventoryTests(unittest.TestCase):
 
     def test_exact_decimal_and_disk_reserve(self) -> None:
         value = "1.123456789012345678901234567890123456789"
-        self.assertEqual(canonical_decimal(Decimal(value)), value)
-        self.assertEqual(canonical_decimal(Decimal("1.00")), "1")
+        self.assertEqual(canonical_decimal(Decimal(value)), canonical_decimal(Decimal(value + "0")))
+        self.assertNotEqual(
+            canonical_decimal(Decimal(value)), canonical_decimal(Decimal(value + "1"))
+        )
+        self.assertEqual(canonical_decimal(Decimal("-0.00")), canonical_decimal(Decimal(0)))
+        self.assertLess(len(canonical_decimal(Decimal("1e999999999"))), 20)
+        self.assertEqual(canonical_decimal(Decimal("1.00")), "1e0")
         self.config["min_free_bytes"] = 10**30
         (self.root / "source" / "XBTUSD_1.csv").write_text("1735689600,1,2,1,2,3,1\n")
         with self.assertRaises(OSError):
@@ -193,6 +200,40 @@ class InventoryTests(unittest.TestCase):
         benchmark = json.loads((output / "manifest.json").read_text())["benchmarks"][0]
         self.assertEqual(benchmark["common_timestamp_count"], 1)
         self.assertFalse(benchmark["multiyear"])
+
+    def test_final_hash_verification_catches_later_changes(self) -> None:
+        (self.root / "source" / "XBTUSD_1.csv").write_text("1735689600,1,2,1,2,3,1\n")
+        with patch("tools.ap02.scan.digest", side_effect=["same", "same", "changed_later"]):
+            output = run(self.config)
+        self.assertTrue(output.name.endswith(".partial"))
+        self.assertFalse(self.records(output, "verification.jsonl")[0]["unchanged"])
+
+    def test_bad_crc_preserves_other_members(self) -> None:
+        path = self.root / "source" / "damaged.zip"
+        with zipfile.ZipFile(path, "w", compression=zipfile.ZIP_STORED) as archive:
+            archive.writestr("ETHUSD_1.csv", "1735689600,1,2,1,2,3,1\n")
+            archive.writestr("XBTUSD_1.csv", "1735689600,1,2,1,2,3,1\n")
+        content = path.read_bytes().replace(b"1735689600", b"1735689601", 1)
+        path.write_bytes(content)
+        output = run(self.config)
+        self.assertTrue(output.name.endswith(".partial"))
+        self.assertTrue(
+            any(
+                item.get("identity") == ["XBTUSD", "1m"]
+                for item in self.records(output, "members.jsonl")
+            )
+        )
+
+    def test_split_part_symlink_is_not_followed(self) -> None:
+        source = self.root / "source"
+        (source / "full.zip.part00").write_bytes(b"prefix")
+        outside = self.root / "outside"
+        outside.write_bytes(b"outside source")
+        (source / "full.zip.part01").symlink_to(outside)
+        output = run(self.config)
+        files = self.records(output, "files.jsonl")
+        self.assertIn("symlink or nonregular part", files[0]["error"])
+        self.assertNotIn("sha256_before", files[1])
 
     def test_output_guard_and_symlink(self) -> None:
         bad = {**self.config, "output_dir": str(self.root / "source" / "output")}

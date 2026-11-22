@@ -16,6 +16,7 @@ class Candle:
     start_us: int
     end_us: int
     values: tuple[Decimal, ...]
+    source_time_unit: str
 
 
 def next_start(start_us: int, interval: str) -> int:
@@ -57,6 +58,7 @@ def parse(source: str, name: str, row: list[str]) -> Candle:
             scale = 1
         else:
             raise ValueError("unknown Binance timestamp unit")
+        source_time_unit = "milliseconds" if scale == 1000 else "microseconds"
         start_us = timestamp * scale
         end_us = next_start(start_us, interval)
         if (int(row[6]) + 1) * scale != end_us:
@@ -71,6 +73,7 @@ def parse(source: str, name: str, row: list[str]) -> Candle:
         seconds = int(row[0])
         if not 10**9 <= seconds < 10**10:
             raise ValueError("unknown Kraken timestamp unit")
+        source_time_unit = "seconds"
         start_us = seconds * 1_000_000
         end_us = next_start(start_us, interval)
         values = tuple(Decimal(value) for value in row[1:])
@@ -78,7 +81,7 @@ def parse(source: str, name: str, row: list[str]) -> Candle:
         raise ValueError("unknown source")
     if not all(value.is_finite() for value in values):
         raise ValueError("nonfinite numeric value")
-    return Candle(instrument, interval, start_us, end_us, values)
+    return Candle(instrument, interval, start_us, end_us, values, source_time_unit)
 
 
 def invalid_values(candle: Candle) -> bool:
