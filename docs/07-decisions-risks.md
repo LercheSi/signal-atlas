@@ -41,7 +41,7 @@ Der reale Datenbestand, die konkreten Providerverträge und die Hardwareleistung
 | D-19 | B | Synthetische Veröffentlichungsereignisse als zweiter Referenzdatentyp | Geänderte MVP-Anforderungen / ADR-0001; reale Makro-/Funding-Reihe optional |
 | D-20 | O/V | Granularität des Connector-Vertrags | Gemeinsame Metadaten und deklarierte Fähigkeiten mit datenartspezifischen Payloads. Die Vertragstests konkretisieren den Umfang |
 
-Kein Eintrag mit Status V oder O wird durch Erwähnung in einem Diagramm zu einer endgültigen Festlegung. Ansprechpartner sind derzeit Rollen, keine erfundenen Personen: Architekturverantwortung, Datenverantwortung, Research-Verantwortung und Betrieb. Ihre tatsächliche Besetzung ist vor der Umsetzung zu dokumentieren. Der [AP01-Vertrag, Abschnitt 7](08-ap01-contract.md#7-offene-entscheidungen-mit-gates) ordnet offenen Entscheidungen Rollen, Kriterien und Entscheidungspunkte zu.
+Kein Eintrag mit Status V oder O wird durch Erwähnung in einem Diagramm zu einer endgültigen Festlegung. Der [AP01-Vertrag, Abschnitt 7](08-ap01-contract.md#7-rollenbesetzung-und-entscheidungspunkte) nennt die Person, die die Rollen übernimmt, und ordnet offenen Entscheidungen Rollen, Kriterien und Entscheidungspunkte zu.
 
 ## 4. Annahmenregister
 
@@ -118,4 +118,4 @@ Pflegeanlässe: veränderte Zeitsemantik, neue Datenquelle, neue Plugin-API, öf
 | [0005 · Snapshot-Commit](adr/0005-snapshot-commit.md) | proposed | D-12; vollständige atomar sichtbare Datenstände |
 | [0006 · Plugin-Vertrauen](adr/0006-plugin-vertrauen.md) | proposed | A-06; geprüfte lokale Erweiterungen |
 
-Jobrunner, Laufzeit-/Bibliotheksversionen und Lizenz bleiben mit den Gates im AP01-Vertrag offen. AP01 ist zur Abnahme vorbereitet: technische ADR-Annahme, ausdrückliche Entscheidung über D-08 und die namentliche Rollenbesetzung stehen aus. Vertragsfreigaben und spätere Implementierungsnachweise sind in Abschnitt 7 des AP01-Vertrags getrennt. Die Dokumente ersetzen keine Software-, Datenrechte- oder Performance-Nachweise.
+Jobrunner, Laufzeit-/Bibliotheksversionen und Lizenz bleiben mit den Gates im AP01-Vertrag offen. AP01 ist zur Abnahme vorbereitet: die technische ADR-Annahme und die ausdrückliche Entscheidung über D-08 stehen aus. Vertragsfreigaben und spätere Implementierungsnachweise sind in Abschnitt 7 des AP01-Vertrags getrennt. Die Dokumente ersetzen keine Software-, Datenrechte- oder Performance-Nachweise.

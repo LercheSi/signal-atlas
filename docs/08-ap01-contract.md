@@ -6,7 +6,7 @@
 
 Stand: 22. November 2026. Dieser Vertrag konkretisiert AP01; er beschreibt keine implementierten Funktionen. Lokalbetrieb für eine Person wurde im Projektgespräch bestätigt. Die folgenden technischen Festlegungen sind der zur Prüfung vorgelegte AP01-Entwurf; die ADRs kennzeichnen sie als `proposed`.
 
-Die Rollen Produkt, Research, Daten, Architektur und Betrieb sind Verantwortungsbereiche, keine behaupteten Personalzuweisungen. Die namentliche Besetzung bleibt vor Beginn von AP02/03 offen. AP01 ist bis zu dieser Zuordnung und der Annahme der vorgeschlagenen ADRs sowie der ausdrücklichen D-08-Entscheidung **zur Abnahme vorbereitet**, nicht abgeschlossen.
+Die fünf Rollen sind in Abschnitt 7 namentlich besetzt. AP01 ist **zur Abnahme vorbereitet**. Vor der formalen Abnahme stehen die technische Annahme der vorgeschlagenen ADRs und die ausdrückliche Entscheidung über D-08 aus.
 
 ## 2. Research-Ablauf A: OHLCV-Vergleich und Lead-Lag
 
@@ -114,13 +114,14 @@ AP02 erhält konfigurierte, erlaubte Quellpfade; ein Scan ist schreibgeschützt.
 
 Ein reproduzierbarer Bericht bindet Scanversion, Konfiguration, Zeitpunkt und Dateihashes. Originalhashes werden auf unverändert geprüft. AP02 liefert die Formatmatrix für zwei Pilotadapter, kleine und mehrjährige Benchmarkausschnitte, Gesamtvolumen und Hardwareprofil. Der synthetische Eventbestand entsteht separat als Fixture in AP03; er wird nicht als vorgefundener Realbestand inventarisiert. Private Speicherorte gehören in lokale Konfiguration statt öffentliche Dokumentation.
 
-## 7. Offene Entscheidungen mit Gates
+## 7. Rollenbesetzung und Entscheidungspunkte
+
+Simon Lerche übernimmt im Einzelbetrieb die fünf Rollen **Produkt**, **Architektur**, **Daten**, **Research** und **Betrieb**. Er kann Umsetzung und Review pro Arbeitspaket getrennt vergeben. Die Freigabe von Entscheidungen und die formale Abnahme bleiben bei ihm.
 
 Die Tabelle deckt D-01 bis D-20 sowie das Plugin-Vertrauen A-06 ab. **Vertragsfreigabe** bedeutet eine dokumentierte Entscheidung durch die zuständige Rolle; **Implementierungsnachweis** bedeutet erst den später ausgeführten Test oder Benchmark. Vorschläge werden durch diesen Review nicht freigegeben. Die technische Freigabe der vorgeschlagenen AP01-ADRs und die Entscheidung über D-08 sind Voraussetzungen der formalen AP01-Abnahme; spätere Softwaretests sind keine vorgezogenen AP01-Gates.
 
 | Entscheidung / aktueller Status | Verantwortliche Rolle | Überprüfbares Entscheidungskriterium und spätester Entscheidungspunkt | Späterer Implementierungsnachweis |
 |---|---|---|---|
-| Rollenbesetzung | Produkt | Tatsächliche Verantwortliche benennen; vor formaler AP01-Abnahme und Beginn AP02/03 | Keine erfundenen Personalzuweisungen |
 | D-01 K; D-14/D-19 B · MVP/Lokalbetrieb, ADR-0001 accepted | Produkt/Research | Bereits festgelegte zwei Referenzabläufe und lokalen Einzelbetrieb beibehalten; Änderungen vor Scope-/Betriebserweiterung neu entscheiden | Beide Abläufe AP03–08; kein Nachweis durch accepted-Status |
 | D-02/D-03 K · Speicherrollen | Architektur | Bestehende Parquet-/DuckDB-/Polars- und PostgreSQL-Rollen sind Kontext; Abweichungen vor Umsetzung gesondert entscheiden | Lastprofil AP04, Persistenz AP03/04 |
 | D-04 O/V · Jobrunner | Architektur/Betrieb | Runner anhand Claim-, Lease-, Retry- und Abbruchkonzept auswählen; vor produktiver Jobintegration in AP04 | Recovery und Idempotenz AP04 vor M1 |
@@ -143,4 +144,4 @@ Die Wahl einzelner Bibliotheken oder einer Softwarelizenz wird durch AP01 nicht 
 
 Am 22. November 2026 geprüft: lokale Markdown-Dateiverweise, Abschnittsanker, geschlossene Codeblöcke, JSON-Beispiele, eindeutige ADR-Nummern/-Status, Abdeckung F-01 bis F-12 in der Übergabematrix und `git diff --check`. README dient als Einstieg zum Vertrag und zum ADR-Register.
 
-Das Repository enthält ausschließlich Dokumentation; Test-, Formatierungs-, Lint- und Typprüfungsbefehle für Anwendungscode sind noch nicht eingerichtet. Der Event-Referenzfall wurde zusätzlich rechnerisch auf Anker/Ende, Baseline-Ausschluss, Logrendite und Endkurs-Cutoff geprüft. Dies ist eine Prüfung der dokumentierten Erwartungswerte, kein Anwendungstest. Entsprechend wurden keine Softwaretests oder Benchmarks ausgeführt. Technische ADR-Annahme, D-08-Entscheidung und Rollenbesetzung bleiben für AP01 offen; spätere Implementierungsnachweise folgen in den benannten Paketen.
+Das Repository enthält ausschließlich Dokumentation; Test-, Formatierungs-, Lint- und Typprüfungsbefehle für Anwendungscode sind noch nicht eingerichtet. Der Event-Referenzfall wurde zusätzlich rechnerisch auf Anker/Ende, Baseline-Ausschluss, Logrendite und Endkurs-Cutoff geprüft. Dies ist eine Prüfung der dokumentierten Erwartungswerte, kein Anwendungstest. Entsprechend wurden keine Softwaretests oder Benchmarks ausgeführt. Die technische ADR-Annahme und die Entscheidung über D-08 bleiben für AP01 offen; spätere Implementierungsnachweise folgen in den benannten Paketen.

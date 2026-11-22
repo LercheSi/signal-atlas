@@ -25,7 +25,7 @@ Lieferumfang: bestätigter Scope, ADRs zu Anbieter- und Handelsplatzunabhängigk
 
 **Abnahme:** Der börsenübergreifende OHLCV-Vergleich und der heterogene OHLCV-/Event-Ablauf sind mit Eingaben, Ergebnissen und Zeitannahmen beschrieben; offene Entscheidungen besitzen Owner/Rolle und Entscheidungskriterium; kein autonomes Trading im Scope. Verantwortliche Personen müssen noch benannt werden.
 
-**Arbeitsstand:** [AP01-Vertrag](08-ap01-contract.md) und sechs ADRs liegen vor. Lokalbetrieb ist bestätigt; technische ADR-Annahme, ausdrückliche D-08-Entscheidung und namentliche Rollenbesetzung stehen aus. Vertragsfreigabe erfolgt vor formaler AP01-Abnahme; Software-/Recovery-Nachweise folgen erst in den Umsetzungspaketen. AP01 ist zur Abnahme vorbereitet, noch nicht abgenommen.
+**Arbeitsstand:** [AP01-Vertrag](08-ap01-contract.md) und sechs ADRs liegen vor. Lokalbetrieb ist bestätigt; die Rollen sind besetzt. Die technische ADR-Annahme und die ausdrückliche Entscheidung über D-08 stehen aus. Vertragsfreigabe erfolgt vor formaler AP01-Abnahme; Software-/Recovery-Nachweise folgen erst in den Umsetzungspaketen. AP01 ist zur Abnahme vorbereitet, noch nicht abgenommen.
 
 ### AP 02 · Dateninventur und Qualitätsanalyse
 
